@@ -2,7 +2,7 @@ export default () => ({
     database: {
         uri: process.env.DATABASE_URI,
         options: {
-            dbName: 'minigame',
+            dbName: process.env.DATABASE_NAME,
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,

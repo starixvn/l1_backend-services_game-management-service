@@ -7,7 +7,6 @@ import configuration from './config/configuration';
 import { GameConfigsModule } from './game-configs/game-configs.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
