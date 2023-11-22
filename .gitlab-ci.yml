@@ -1,4 +1,5 @@
 variables:
+    ENABLE_TEST_JS: 'true'
     ENABLE_NODEJS_INTEGRATION_TEST: 'true'
     NODEJS_INTEGRATION_TEST_IMAGE_VERSION: hub.lumigame.com/base/node:20.9.0-alpine
     NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: hub.lumigame.com/docker-hub/library/mongo:4.4.8
@@ -8,10 +9,8 @@ include:
       ref: main
       file: 'luminet.gitlab-ci.yml'
 
-unit-test-js:
+unit_test_js:
     image: hub.lumigame.com/base/node:20.9.0-alpine
-    script:
-        - npm run test-coverage
 
 integration_test_js:
     stage: test
