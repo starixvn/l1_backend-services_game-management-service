@@ -10,6 +10,8 @@ include:
 
 unit-test-js:
     image: hub.lumigame.com/base/node:20.9.0-alpine
+    script:
+        - npm run test-coverage
 
 integration_test_js:
     stage: test
