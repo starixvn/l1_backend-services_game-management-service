@@ -1,3 +1,8 @@
+variables:
+    ENABLE_NODEJS_INTEGRATION_TEST: 'true'
+    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: hub.lumigame.com/base/node:20.9.0-alpine
+    NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: hub.lumigame.com/docker-hub/library/mongo:4.4.8
+
 include:
   - project: "ci/core-cicd"
     ref: main
