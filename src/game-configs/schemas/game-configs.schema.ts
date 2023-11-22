@@ -5,25 +5,25 @@ export type GameConfigsDocument = GameConfigs & mongoose.Document;
 
 @Schema()
 export class GameConfigs {
-    @Prop({required: true})
+    @Prop({ required: true })
     name: string;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     enabled: boolean;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     minbet: number;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     maxbet: number;
 
     @Prop()
     disabledround: number;
 
-    @Prop({default: false})
+    @Prop({ default: false })
     botenabled: boolean;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     maxbot: number;
 
     @Prop()
@@ -47,7 +47,7 @@ export class GameConfigs {
     @Prop()
     delayStartTime: number;
 
-    @Prop({default: false})
+    @Prop({ default: false })
     enableFreeBet: boolean;
 
     @Prop({ type: Object })
@@ -56,13 +56,13 @@ export class GameConfigs {
     @Prop()
     siteExclusions: Array<any>;
 
-    @Prop({default: false})
+    @Prop({ default: false })
     smartBotEnabled: boolean;
 
-    @Prop({default: 0})
+    @Prop({ default: 0 })
     smartBotGroupRatio: number;
 
-    @Prop({default: false})
+    @Prop({ default: false })
     exchangeReload: boolean;
 
     @Prop()
@@ -78,7 +78,7 @@ export class GameConfigs {
     gameId: number;
 
     @Prop()
-    displayName: string;    
+    displayName: string;
 }
 
 export const GameConfigsSchema = SchemaFactory.createForClass(GameConfigs);

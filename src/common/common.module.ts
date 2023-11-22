@@ -1,5 +1,5 @@
-import { Global, Module } from "@nestjs/common";
-import * as providers from "./providers";
+import { Global, Module } from '@nestjs/common';
+import * as providers from './providers';
 
 @Global()
 @Module({

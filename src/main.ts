@@ -8,16 +8,16 @@ import { AppModule } from './app.module';
 import { SentryLogger } from './common/providers/logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
-  app.useLogger(app.get(SentryLogger));
-  app.register(helmet, { contentSecurityPolicy: false, frameguard: false });
-  app.useStaticAssets({
-    root: join(__dirname, '..', 'public'),
-  });  
+    app.useLogger(app.get(SentryLogger));
+    app.register(helmet, { contentSecurityPolicy: false, frameguard: false });
+    app.useStaticAssets({
+        root: join(__dirname, '..', 'public'),
+    });
 
-  await app.init();
-  const config = new DocumentBuilder()
+    await app.init();
+    const config = new DocumentBuilder()
         .setTitle('Game Management Service')
         .setDescription('The Game Management Service description')
         .setVersion('1.0')
