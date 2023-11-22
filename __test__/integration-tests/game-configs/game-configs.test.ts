@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../../../src/app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { setupDatabase } from '../_stubs/setup-database';
+import { GameConfigs } from 'src/game-configs/schemas';
 
 //jest.setTimeout(10000);
 describe('Game Configs', () => {
@@ -24,9 +25,11 @@ describe('Game Configs', () => {
     // Act
     const result = await request(app.getHttpServer())
       .get('/game-configs/get-game-configs?gameName=baccarat');
-    
+    const model = JSON.parse(result.text) as GameConfigs;
+    console.log(model);
     // Assert
+
     expect(result.status).toBe(200);    
-    console.log(result.text);
+    expect(model.maxbet).toBe(10);        
   });
 });
