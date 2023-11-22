@@ -7,3 +7,35 @@ include:
   - project: "ci/core-cicd"
     ref: main
     file: "luminet.gitlab-ci.yml"
+
+integration_test_js:
+  stage: test
+  tags:
+  - docker
+  services:
+  - name: "$NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION"
+    alias: mongo
+  image: "$NODEJS_INTEGRATION_TEST_IMAGE_VERSION"
+  before_script:
+  - npm set registry http://npm.lumigame.com
+  - yarn install
+  script:
+  - npm run integration-test
+  artifacts:
+    when: always
+    paths:
+    - "./coverage"
+    reports:
+      junit:
+      - junit.xml
+    expire_in: 1 day
+  extends: ".integration_test_js"
+  rules:
+  - - if: "$CI_COMMIT_TAG =~ /^deploy-/"
+      when: never
+    - if: "$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS"
+      when: never
+  - if: $ENABLE_NODEJS_INTEGRATION_TEST != "true"
+    when: never
+  - - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: "$CI_COMMIT_BRANCH"
