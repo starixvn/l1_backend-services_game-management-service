@@ -18,7 +18,7 @@ export default () => ({
         dns: process.env.SENTRY_DNS,
         release: process.env.SENTRY_RELEASE,
         env: process.env.ENV,
-        logIdentifier: 'user-service',
+        logIdentifier: 'game-management-service',
     },
     systemName: process.env.SYSTEM_TYPE,
 });

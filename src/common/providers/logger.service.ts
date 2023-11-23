@@ -28,7 +28,7 @@ export class SentryLogger implements LoggerService {
             dsn: this.config.dns,
             environment: this.config.env,
             maxValueLength: 5000,
-            release: this.config.release ? `user-service@${this.config.release}` : '',
+            release: this.config.release ? `game-management-service@${this.config.release}` : '',
         });
 
         Sentry.captureMessage(`Logger started at ${new Date()}`);

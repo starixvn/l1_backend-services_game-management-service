@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
@@ -9,8 +9,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CurrenciesModule } from './currencies/currencies.module';
 import { CurrencyGroupsModule } from './currency-groups/currency-groups.module';
 import { CurrencyGroupGamesModule } from './currency-group-games/currency-group-games.module';
+import { AuthenticateMiddleware } from './middlewares/authenticate.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
-console.log('env', process.env.DATABASE_URI, process.env.DATABASE_NAME);
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -24,6 +25,7 @@ console.log('env', process.env.DATABASE_URI, process.env.DATABASE_NAME);
             }),
             inject: [ConfigService],
         }),
+        JwtModule.register({}),
         CommonModule,
         CurrenciesModule,
         CurrencyGroupGamesModule,
@@ -33,4 +35,8 @@ console.log('env', process.env.DATABASE_URI, process.env.DATABASE_NAME);
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(AuthenticateMiddleware).forRoutes('*');
+    }
+}
