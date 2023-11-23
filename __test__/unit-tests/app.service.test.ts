@@ -1,7 +1,7 @@
 import { AppService } from '../../src/app.service';
 
 describe('getHello', () => {
-    it('should return hello world', () => {
+    it('should return App is running', () => {
         // Arrange
         const service = new AppService();
 
@@ -9,6 +9,6 @@ describe('getHello', () => {
         const result = service.getHello();
 
         // Assert
-        expect(result).toBe('Hello World!');
+        expect(result).toBe('App is running!');
     });
 });
