@@ -20,4 +20,22 @@ export class GameConfigsService {
             return null;
         }
     }
+
+    async updateExchangeReload(gameName: string, exchangeReload: boolean) {
+        try {
+            return await this.gameConfigsModel.updateOne({ name: gameName }, { exchangeReload: exchangeReload });
+        } catch (error) {
+            this.logger.error(error);
+            return null;
+        }
+    }
+
+    async updateDisabledround(gameName: string, roundId: number) {
+        try {
+            return await this.gameConfigsModel.updateOne({ name: gameName }, { disabledround: roundId });
+        } catch (error) {
+            this.logger.error(error);
+            return null;
+        }
+    }
 }

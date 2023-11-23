@@ -4,15 +4,18 @@ import * as request from 'supertest';
 import { AppModule } from '../../../src/app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { setupDatabase } from '../_stubs/setup-database';
-import { GameConfigs } from 'src/game-configs/schemas';
+import { GameConfigs, GameConfigsDocument } from 'src/game-configs/schemas';
 import { getBearerToken } from '../_stubs/helper';
+import { getModelToken } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 
 jest.setTimeout(10000);
 describe('Game Configs', () => {
     let app: INestApplication;
+    let moduleFixture: TestingModule;
 
     beforeEach(async () => {
-        const moduleFixture: TestingModule = await Test.createTestingModule({
+        moduleFixture = await Test.createTestingModule({
             imports: [AppModule],
         }).compile();
 
@@ -33,5 +36,41 @@ describe('Game Configs', () => {
         const model = JSON.parse(result.text) as GameConfigs;
         expect(result.status).toBe(200);
         expect(model.maxbet).toBe(10);
+    });
+
+    it('/game-configs/update-exchange-reload (POST)', async () => {
+        // Act
+        const gameConfigsModel = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
+        const oldData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
+
+        const token = await getBearerToken();
+        const result = await request(app.getHttpServer())
+            .post('/game-configs/update-exchange-reload')
+            .send({ gameName: 'baccarat', exchangeReload: true })
+            .set('Authorization', token);
+
+        // Assert
+        const newData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
+        expect(oldData.exchangeReload).toBe(false);
+        expect(newData.exchangeReload).toBe(true);
+        expect(JSON.parse(result.text).ok).toBe(1);
+    });
+
+    it('/game-configs/update-disabled-round (POST)', async () => {
+        // Act
+        const gameConfigsModel = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
+        const oldData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
+
+        const token = await getBearerToken();
+        const result = await request(app.getHttpServer())
+            .post('/game-configs/update-disabled-round')
+            .send({ gameName: 'baccarat', roundId: 123 })
+            .set('Authorization', token);
+
+        // Assert
+        const newData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
+        expect(oldData.disabledround).toBe(1);
+        expect(newData.disabledround).toBe(123);
+        expect(JSON.parse(result.text).ok).toBe(1);
     });
 });

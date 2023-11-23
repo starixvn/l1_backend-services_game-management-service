@@ -11,6 +11,7 @@ import { CurrencyGroupsModule } from './currency-groups/currency-groups.module';
 import { CurrencyGroupGamesModule } from './currency-group-games/currency-group-games.module';
 import { AuthenticateMiddleware } from './middlewares/authenticate.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { ArchiveStatusModule } from './archive-statuses/archive-status.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { JwtModule } from '@nestjs/jwt';
         CurrencyGroupGamesModule,
         CurrencyGroupsModule,
         GameConfigsModule,
+        ArchiveStatusModule,
     ],
     controllers: [AppController],
     providers: [AppService],
