@@ -5,12 +5,14 @@ import { GameConfigsDocument, GameConfigs } from '../../../src/game-configs/sche
 import { ArchiveStatuses, ArchiveStatusesDocument } from '../../../src/archive-statuses/schemas';
 import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
 import { OperatorConfig, OperatorConfigDocument } from '../../../src/operator-configs/schemas';
+import { Domains, DomainsDocument } from '../../../src/domains/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
     await initArchiveStatues(moduleFixture);
     await initPromotion(moduleFixture);
     await initOperatorConfig(moduleFixture);
+    await initDomain(moduleFixture);
 };
 
 const initGameConfigs = async (moduleFixture: TestingModule) => {
@@ -77,6 +79,19 @@ const initOperatorConfig = async (moduleFixture: TestingModule) => {
     item.partnerId = 'OW';
     item.value = [{ 10: ['site1'] }];
     item.operatorId = '123';
+
+    await model.insertMany([item]);
+};
+
+const initDomain = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('Domains')) as Model<DomainsDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new Domains();
+    item.value = 'lumigame.com;luminetsoft.com';
 
     await model.insertMany([item]);
 };

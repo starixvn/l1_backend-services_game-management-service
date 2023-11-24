@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ArchiveStatusModule } from './archive-statuses/archive-status.module';
 import { PromotionModule } from './promotions/promotion.module';
 import { OperatorConfigModule } from './operator-configs/operator-config.module';
+import { DomainModule } from './domains/domain.module';
 
 @Module({
     imports: [
@@ -37,6 +38,7 @@ import { OperatorConfigModule } from './operator-configs/operator-config.module'
         ArchiveStatusModule,
         PromotionModule,
         OperatorConfigModule,
+        DomainModule,
     ],
     controllers: [AppController],
     providers: [AppService],
