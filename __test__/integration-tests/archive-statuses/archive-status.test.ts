@@ -23,7 +23,7 @@ describe('Archive Statuses', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/get-archive-status/get-archive-status (GET)', async () => {
+    it('/archive-status/get-archive-status (GET)', async () => {
         // Act
         const token = await getBearerToken();
         const result = await request(app.getHttpServer())
