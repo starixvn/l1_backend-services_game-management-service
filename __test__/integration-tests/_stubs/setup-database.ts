@@ -4,11 +4,13 @@ import { Model, Types } from 'mongoose';
 import { GameConfigsDocument, GameConfigs } from '../../../src/game-configs/schemas';
 import { ArchiveStatuses, ArchiveStatusesDocument } from '../../../src/archive-statuses/schemas';
 import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
+import { OperatorConfig, OperatorConfigDocument } from '../../../src/operator-configs/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
     await initArchiveStatues(moduleFixture);
     await initPromotion(moduleFixture);
+    await initOperatorConfig(moduleFixture);
 };
 
 const initGameConfigs = async (moduleFixture: TestingModule) => {
@@ -59,6 +61,22 @@ const initPromotion = async (moduleFixture: TestingModule) => {
     item.endDateTime = new Date();
     item.status = 'enabled';
     item.isDaily = true;
+
+    await model.insertMany([item]);
+};
+
+const initOperatorConfig = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('OperatorConfig')) as Model<OperatorConfigDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new OperatorConfig();
+    item.type = 'game_site_exclusions';
+    item.partnerId = 'OW';
+    item.value = [{ 10: ['site1'] }];
+    item.operatorId = '123';
 
     await model.insertMany([item]);
 };
