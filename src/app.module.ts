@@ -45,6 +45,6 @@ import { DomainModule } from './domains/domain.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(AuthenticateMiddleware).forRoutes('*');
+        consumer.apply(AuthenticateMiddleware).exclude('api(.*)').forRoutes('*');
     }
 }
