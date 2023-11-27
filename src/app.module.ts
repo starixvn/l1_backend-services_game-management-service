@@ -15,6 +15,7 @@ import { ArchiveStatusModule } from './archive-statuses/archive-status.module';
 import { PromotionModule } from './promotions/promotion.module';
 import { OperatorConfigModule } from './operator-configs/operator-config.module';
 import { DomainModule } from './domains/domain.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
@@ -39,6 +40,7 @@ import { DomainModule } from './domains/domain.module';
         PromotionModule,
         OperatorConfigModule,
         DomainModule,
+        UsersModule,
     ],
     controllers: [AppController],
     providers: [AppService],
