@@ -16,6 +16,7 @@ import { PromotionModule } from './promotions/promotion.module';
 import { OperatorConfigModule } from './operator-configs/operator-config.module';
 import { DomainModule } from './domains/domain.module';
 import { UsersModule } from './users/users.module';
+import { NotificationModule } from './notifications/notification.module';
 
 @Module({
     imports: [
@@ -41,6 +42,7 @@ import { UsersModule } from './users/users.module';
         OperatorConfigModule,
         DomainModule,
         UsersModule,
+        NotificationModule,
     ],
     controllers: [AppController],
     providers: [AppService],

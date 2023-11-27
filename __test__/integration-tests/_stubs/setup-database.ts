@@ -6,6 +6,7 @@ import { ArchiveStatuses, ArchiveStatusesDocument } from '../../../src/archive-s
 import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
 import { OperatorConfig, OperatorConfigDocument } from '../../../src/operator-configs/schemas';
 import { Domains, DomainsDocument } from '../../../src/domains/schemas';
+import { Notification, NotificationDocument } from '../../../src/notifications/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
@@ -13,6 +14,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initPromotion(moduleFixture);
     await initOperatorConfig(moduleFixture);
     await initDomain(moduleFixture);
+    await initNotification(moduleFixture);
 };
 
 const initGameConfigs = async (moduleFixture: TestingModule) => {
@@ -92,6 +94,23 @@ const initDomain = async (moduleFixture: TestingModule) => {
     // Insert
     const item = new Domains();
     item.value = 'lumigame.com;luminetsoft.com';
+
+    await model.insertMany([item]);
+};
+
+const initNotification = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('Notification')) as Model<NotificationDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new Notification();
+    item.time = new Date();
+    item.message = 'um now';
+    item.displayKind = 2;
+    item.gameName = 'baccarat';
+    item.messages = { message: 'um message' };
 
     await model.insertMany([item]);
 };
