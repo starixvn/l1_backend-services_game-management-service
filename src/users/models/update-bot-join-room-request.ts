@@ -1,7 +1,7 @@
 import { IsString } from 'class-validator';
-import { UpdateBotOutRoomRequest } from './update-bot-request';
+import { UpdateBotsOutRoomRequest } from './update-bot-request';
 
-export class UpdateBotJoinRoomRequest extends UpdateBotOutRoomRequest {
+export class UpdateBotsJoinRoomRequest extends UpdateBotsOutRoomRequest {
     @IsString()
     readonly gameName: string;
 }

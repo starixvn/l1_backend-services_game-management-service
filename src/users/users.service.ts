@@ -40,18 +40,18 @@ export class UsersService {
         }
     }
 
-    async updateBotOutRoom(botId: string) {
+    async updateBotsOutRoom(botIds: string[]) {
         try {
-            return this.userInfoModel.updateOne({ id: botId }, { inRoom: false, inGameRoom: '', patternId: 0 }).exec();
+            return this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: false, inGameRoom: '', patternId: 0 }).exec();
         } catch (error) {
             this.logger.error(error);
             return null;
         }
     }
 
-    async updateBotJoinRoom(botId: string, gameName: string) {
+    async updateBotsJoinRoom(botIds: string[], gameName: string) {
         try {
-            return this.userInfoModel.updateOne({ id: botId }, { inRoom: true, inGameRoom: gameName }).exec();
+            return this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: true, inGameRoom: gameName }).exec();
         } catch (error) {
             this.logger.error(error);
             return null;

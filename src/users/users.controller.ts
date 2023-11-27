@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateBotOutRoomRequest, UpdateBotJoinRoomRequest, ResetBotInRoomRequest, UpdateStakeLevelRequest } from './models';
+import { UpdateBotsOutRoomRequest, UpdateBotsJoinRoomRequest, ResetBotInRoomRequest, UpdateStakeLevelRequest } from './models';
 
 @Controller('users')
 export class UsersController {
@@ -22,13 +22,13 @@ export class UsersController {
     }
 
     @Post('bots/out-room')
-    async updateBotOutRoom(@Body() body: UpdateBotOutRoomRequest) {
-        return this.usersService.updateBotOutRoom(body.botId);
+    async updateBotsOutRoom(@Body() body: UpdateBotsOutRoomRequest) {
+        return this.usersService.updateBotsOutRoom(body.botIds);
     }
 
     @Post('bots/join-room')
-    async updateBotJoinRoom(@Body() body: UpdateBotJoinRoomRequest) {
-        return this.usersService.updateBotJoinRoom(body.botId, body.gameName);
+    async updateBotsJoinRoom(@Body() body: UpdateBotsJoinRoomRequest) {
+        return this.usersService.updateBotsJoinRoom(body.botIds, body.gameName);
     }
 
     @Post('bots/reset-in-room')

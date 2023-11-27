@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import { IsString, IsArray } from 'class-validator';
 
-export class UpdateBotOutRoomRequest {
-    @IsString()
-    readonly botId: string;
+export class UpdateBotsOutRoomRequest {
+    @IsArray()
+    @IsString({ each: true })
+    readonly botIds: string[];
 }
