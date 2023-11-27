@@ -17,6 +17,7 @@ import { OperatorConfigModule } from './operator-configs/operator-config.module'
 import { DomainModule } from './domains/domain.module';
 import { UsersModule } from './users/users.module';
 import { NotificationModule } from './notifications/notification.module';
+import { JackpotsModule } from './jackpots/jackpots.module';
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import { NotificationModule } from './notifications/notification.module';
         DomainModule,
         UsersModule,
         NotificationModule,
+        JackpotsModule,
     ],
     controllers: [AppController],
     providers: [AppService],
