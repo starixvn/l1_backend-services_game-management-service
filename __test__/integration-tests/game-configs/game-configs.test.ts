@@ -25,12 +25,10 @@ describe('Game Configs', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/game-configs/get-game-configs (GET)', async () => {
+    it('/game-configs (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer())
-            .get('/game-configs/get-game-configs?gameName=baccarat')
-            .set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/game-configs?gameName=baccarat').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as GameConfigs;
@@ -38,14 +36,14 @@ describe('Game Configs', () => {
         expect(model.maxbet).toBe(10);
     });
 
-    it('/game-configs/update-exchange-reload (POST)', async () => {
+    it('/game-configs/exchange-reload (POST)', async () => {
         // Act
         const gameConfigsModel = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
         const oldData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
 
         const token = await getBearerToken();
         const result = await request(app.getHttpServer())
-            .post('/game-configs/update-exchange-reload')
+            .post('/game-configs/exchange-reload')
             .send({ gameName: 'baccarat', exchangeReload: true })
             .set('Authorization', token);
 
@@ -56,14 +54,14 @@ describe('Game Configs', () => {
         expect(JSON.parse(result.text).ok).toBe(1);
     });
 
-    it('/game-configs/update-disabled-round (POST)', async () => {
+    it('/game-configs/disabled-round (POST)', async () => {
         // Act
         const gameConfigsModel = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
         const oldData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
 
         const token = await getBearerToken();
         const result = await request(app.getHttpServer())
-            .post('/game-configs/update-disabled-round')
+            .post('/game-configs/disabled-round')
             .send({ gameName: 'baccarat', roundId: 123 })
             .set('Authorization', token);
 

@@ -23,10 +23,10 @@ describe('Domain', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/domain/get-domains (GET)', async () => {
+    it('/domain (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/domain/get-domains').set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/domain').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as Domains;

@@ -23,10 +23,10 @@ describe('Promotion', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/promotion/get-promotion (GET)', async () => {
+    it('/promotion (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/promotion/get-promotion?gameId=12').set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/promotion?gameId=12').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as Promotion;

@@ -5,7 +5,7 @@ import { NotificationService } from './notification.service';
 export class NotificationController {
     constructor(private readonly service: NotificationService) {}
 
-    @Get('get-um-messages')
+    @Get('um-messages')
     async getPromotion(@Query('configName') configName: string) {
         return this.service.getUMMessage(configName);
     }

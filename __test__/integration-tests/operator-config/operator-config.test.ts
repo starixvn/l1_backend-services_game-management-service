@@ -23,10 +23,10 @@ describe('Operator Config', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/operator-config/get-game-site-exclusions (GET)', async () => {
+    it('/operator-config/game-site-exclusions (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/operator-config/get-game-site-exclusions').set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/operator-config/game-site-exclusions').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as OperatorConfig;

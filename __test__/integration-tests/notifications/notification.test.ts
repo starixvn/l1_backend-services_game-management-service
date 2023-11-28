@@ -23,12 +23,10 @@ describe('Notification', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/notification/get-um-messages (GET)', async () => {
+    it('/notification/um-messages (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer())
-            .get('/notification/get-um-messages?configName=baccarat')
-            .set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/notification/um-messages?configName=baccarat').set('Authorization', token);
 
         // Assert
         expect(result.status).toBe(200);

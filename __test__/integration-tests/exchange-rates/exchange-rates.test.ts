@@ -23,10 +23,11 @@ describe('ExchangeRates', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/exchange-rates/get-exchange-rates (GET)', async () => {
+    it('/exchange-rates (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/exchange-rates/get-exchange-rates').set('Authorization', token);
+        console.log('token ', token);
+        const result = await request(app.getHttpServer()).get('/exchange-rates').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as ExchangeRates;

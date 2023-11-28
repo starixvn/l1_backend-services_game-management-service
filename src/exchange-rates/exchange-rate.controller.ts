@@ -5,7 +5,7 @@ import { ExchangeRateService } from './exchange-rate.service';
 export class ExchangeRateController {
     constructor(private readonly service: ExchangeRateService) {}
 
-    @Get('get-exchange-rates')
+    @Get('')
     async getPromotion() {
         return this.service.getExchangeRates();
     }

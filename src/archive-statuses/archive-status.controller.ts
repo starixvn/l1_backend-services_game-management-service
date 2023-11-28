@@ -5,7 +5,7 @@ import { ArchiveStatusService } from './archive-status.service';
 export class ArchiveStatusController {
     constructor(private readonly service: ArchiveStatusService) {}
 
-    @Get('get-archive-status')
+    @Get('')
     async getArchiveStatus(@Query('gameName') gameName: string) {
         return this.service.getArchiveStatus(gameName);
     }

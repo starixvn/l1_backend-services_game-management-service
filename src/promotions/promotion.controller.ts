@@ -5,7 +5,7 @@ import { PromotionService } from './promotion.service';
 export class PromotionController {
     constructor(private readonly service: PromotionService) {}
 
-    @Get('get-promotion')
+    @Get('/')
     async getPromotion(@Query('gameId') gameId: number) {
         return this.service.getPromotion(gameId);
     }

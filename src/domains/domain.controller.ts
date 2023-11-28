@@ -5,7 +5,7 @@ import { DomainService } from './domain.service';
 export class DomainController {
     constructor(private readonly service: DomainService) {}
 
-    @Get('get-domains')
+    @Get('')
     async getDomain() {
         return this.service.getDomains();
     }

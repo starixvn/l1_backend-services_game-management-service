@@ -23,12 +23,10 @@ describe('Archive Statuses', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/archive-status/get-archive-status (GET)', async () => {
+    it('/archive-status (GET)', async () => {
         // Act
         const token = await getBearerToken();
-        const result = await request(app.getHttpServer())
-            .get('/archive-status/get-archive-status?gameName=baccarat')
-            .set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/archive-status?gameName=baccarat').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as ArchiveStatuses;

@@ -5,7 +5,7 @@ import { OperatorConfigService } from './operator-config.service';
 export class OperatorConfigController {
     constructor(private readonly service: OperatorConfigService) {}
 
-    @Get('get-game-site-exclusions')
+    @Get('game-site-exclusions')
     async getGameSiteExclusions() {
         return this.service.getGameSiteExclusions();
     }
