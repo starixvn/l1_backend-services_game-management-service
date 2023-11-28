@@ -7,6 +7,7 @@ import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
 import { OperatorConfig, OperatorConfigDocument } from '../../../src/operator-configs/schemas';
 import { Domains, DomainsDocument } from '../../../src/domains/schemas';
 import { Notification, NotificationDocument } from '../../../src/notifications/schemas';
+import { ExchangeRates, ExchangeRatesDocument } from '../../../src/exchange-rates/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
@@ -15,6 +16,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initOperatorConfig(moduleFixture);
     await initDomain(moduleFixture);
     await initNotification(moduleFixture);
+    await initExchangeRates(moduleFixture);
 };
 
 const initGameConfigs = async (moduleFixture: TestingModule) => {
@@ -111,6 +113,25 @@ const initNotification = async (moduleFixture: TestingModule) => {
     item.displayKind = 2;
     item.gameName = 'baccarat';
     item.messages = { message: 'um message' };
+
+    await model.insertMany([item]);
+};
+
+const initExchangeRates = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('ExchangeRates')) as Model<ExchangeRatesDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new ExchangeRates();
+    item.exId = 12;
+    item.time = new Date();
+    item.source = 'OW';
+    item.code = {
+        AUD: 0.7,
+        CAD: 0.78,
+    };
 
     await model.insertMany([item]);
 };

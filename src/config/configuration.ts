@@ -1,12 +1,13 @@
 export default () => ({
     database: {
         uri: process.env.DATABASE_URI,
-        options: {
-            dbName: process.env.DATABASE_NAME,
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            auto_reconnect: true,
-        },
+        dbName: process.env.DATABASE_NAME,
+        //options: {
+        //  dbName: process.env.DATABASE_NAME,
+        //useNewUrlParser: true,
+        //useUnifiedTopology: true,
+        //auto_reconnect: true,
+        //},
     },
     auth: {
         uri: process.env.AUTH_URI,

@@ -18,6 +18,7 @@ import { DomainModule } from './domains/domain.module';
 import { UsersModule } from './users/users.module';
 import { NotificationModule } from './notifications/notification.module';
 import { JackpotsModule } from './jackpots/jackpots.module';
+import { ExchangeRateModule } from './exchange-rates/exchange-rate.module';
 
 @Module({
     imports: [
@@ -45,6 +46,7 @@ import { JackpotsModule } from './jackpots/jackpots.module';
         UsersModule,
         NotificationModule,
         JackpotsModule,
+        ExchangeRateModule,
     ],
     controllers: [AppController],
     providers: [AppService],
