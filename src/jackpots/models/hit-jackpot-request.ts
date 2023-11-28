@@ -2,7 +2,7 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class HitJackpotRequest {
     @IsNumber()
-    readonly gameId: string;
+    readonly gameId: number;
 
     @IsNumber()
     readonly pool: number;

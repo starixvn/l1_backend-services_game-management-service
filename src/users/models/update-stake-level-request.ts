@@ -5,8 +5,8 @@ export class UpdateStakeLevelRequest {
     readonly id: string;
 
     @IsNumber()
-    readonly minBet: string;
+    readonly minBet: number;
 
     @IsNumber()
-    readonly maxBet: string;
+    readonly maxBet: number;
 }

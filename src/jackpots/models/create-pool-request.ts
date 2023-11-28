@@ -2,7 +2,7 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreatePoolRequest {
     @IsNumber()
-    readonly gameId: string;
+    readonly gameId: number;
 
     @IsString()
     readonly gameName: string;
