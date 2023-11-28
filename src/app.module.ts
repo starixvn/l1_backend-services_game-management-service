@@ -19,6 +19,7 @@ import { UsersModule } from './users/users.module';
 import { NotificationModule } from './notifications/notification.module';
 import { JackpotsModule } from './jackpots/jackpots.module';
 import { ExchangeRateModule } from './exchange-rates/exchange-rate.module';
+import { IdCountersModule } from './id-counters/id-counters.module';
 
 @Module({
     imports: [
@@ -47,6 +48,7 @@ import { ExchangeRateModule } from './exchange-rates/exchange-rate.module';
         NotificationModule,
         JackpotsModule,
         ExchangeRateModule,
+        IdCountersModule,
     ],
     controllers: [AppController],
     providers: [AppService],
