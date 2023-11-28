@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { IdCountersService } from './id-counters.service';
 import { IncreaseIdCounterRequest, UpdateLatestIdCounterRequest } from './models';
 
-@Controller('IdCounters')
+@Controller('id-counters')
 export class IdCountersController {
     constructor(private readonly service: IdCountersService) {}
 
