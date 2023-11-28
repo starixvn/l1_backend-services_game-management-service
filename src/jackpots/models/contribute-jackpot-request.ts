@@ -1,21 +1,17 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber } from 'class-validator';
+import { BaseJackpotRequest } from './base-jackpot-request';
 
-export class ContributeJackpotRequest {
+export class ContributeJackpotRequest extends BaseJackpotRequest {
     @IsNumber()
-    readonly gameId: number;
-
-    @IsNumber()
-    readonly pool: number;
-
-    @IsNumber()
-    readonly roundId: number;
-
-    @IsNumber()
+    @ApiProperty()
     readonly amount: number;
 
     @IsNumber()
+    @ApiProperty()
     readonly byBots: number;
 
     @IsNumber()
+    @ApiProperty()
     readonly byMembers: number;
 }

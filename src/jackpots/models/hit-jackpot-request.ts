@@ -1,33 +1,33 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
+import { BaseJackpotRequest } from './base-jackpot-request';
 
-export class HitJackpotRequest {
+export class HitJackpotRequest extends BaseJackpotRequest {
     @IsNumber()
-    readonly gameId: number;
-
-    @IsNumber()
-    readonly pool: number;
-
-    @IsNumber()
-    readonly roundId: number;
-
-    @IsNumber()
+    @ApiProperty()
     readonly winningRatio: number;
 
     @IsString()
+    @ApiProperty()
     readonly winnerName: string;
 
     @IsNumber()
+    @ApiProperty()
     readonly winnerId: number;
 
     @IsNumber()
+    @ApiProperty()
     readonly rate: number;
 
     @IsNumber()
+    @ApiProperty()
     readonly exchangeRateId: number;
 
     @IsString()
+    @ApiProperty()
     readonly operatorId: string;
 
     @IsString()
+    @ApiProperty()
     readonly currency: string;
 }
