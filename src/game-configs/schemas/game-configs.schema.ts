@@ -27,19 +27,19 @@ export class GameConfigs {
     maxbot: number;
 
     @Prop()
-    bot_maxbet: number;
+    bot_maxbet: number; // NOSONAR
 
     @Prop()
-    bot_minbet: number;
+    bot_minbet: number; // NOSONAR
 
     @Prop()
-    hour_maxbot: Array<any>;
+    hour_maxbot: Array<any>; // NOSONAR
 
     @Prop()
-    disabled_message: string;
+    disabled_message: string; // NOSONAR
 
     @Prop({ type: Object })
-    choices_maxbet: object;
+    choices_maxbet: object; // NOSONAR
 
     @Prop({ type: Object })
     odds: object;
