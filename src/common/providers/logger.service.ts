@@ -1,7 +1,6 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as Sentry from '@sentry/node';
-import { SeverityLevel } from '@sentry/node';
 
 interface SentryConfig {
     dsn: string;
@@ -35,8 +34,12 @@ export class SentryLogger implements LoggerService {
         Sentry.captureMessage(`Logger started at ${new Date()}`);
     }
 
-    log(message: string, context = Severity.Info as SeverityLevel) {
-        Sentry.captureMessage(message, context);
+    log(message: string, context = Severity.Info) {
+        if (context === 'RouterExplorer' || 'RoutesResolver') {
+            return;
+        }
+
+        Sentry.captureMessage(message, context as Sentry.Severity);
     }
 
     error(exception: any) {
@@ -45,7 +48,7 @@ export class SentryLogger implements LoggerService {
             exception instanceof String ||
             (exception && exception.message == null && exception.stack == null)
         ) {
-            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as SeverityLevel);
+            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as Sentry.Severity);
         } else {
             if (!exception) {
                 exception = `Exception is null at ${new Date()}`;
@@ -56,15 +59,15 @@ export class SentryLogger implements LoggerService {
     }
 
     warn(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning as SeverityLevel);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning as Sentry.Severity);
     }
 
     debug?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug as SeverityLevel);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug as Sentry.Severity);
     }
 
     verbose?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log as SeverityLevel);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log as Sentry.Severity);
     }
 
     composeBeforeCallMessage(session, params) {
