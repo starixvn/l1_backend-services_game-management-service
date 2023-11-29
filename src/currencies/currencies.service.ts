@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { Currencies, CurrenciesDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
 
 @Injectable()
 export class CurrenciesService {
@@ -12,12 +13,13 @@ export class CurrenciesService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getCurrencies() {
+    async getCurrencies(): Promise<Result<Currencies[]>> {
         try {
-            return this.CurrenciesModel.find({ enabled: true }, { _id: 0 }).lean().exec();
+            const currencies = await this.CurrenciesModel.find({ enabled: true }, { _id: 0 }).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, currencies);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

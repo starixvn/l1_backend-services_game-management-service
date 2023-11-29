@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { Jackpots, JackpotsDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
 import { ContributeJackpotRequest, CreatePoolRequest, HitJackpotRequest } from './models';
+import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
 
 @Injectable()
 export class JackpotsService {
@@ -13,7 +14,7 @@ export class JackpotsService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getPools(gameId: number) {
+    async getPools(gameId: number): Promise<Result<Jackpots[]>> {
         try {
             const runningPoolsFilter = {
                 gameId,
@@ -24,14 +25,15 @@ export class JackpotsService {
                 pool: true,
                 amount: true,
             };
-            return this.JackpotsModel.find(runningPoolsFilter, projection).lean().exec();
+            const pools = await this.JackpotsModel.find(runningPoolsFilter, projection).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, pools);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async contributeJackpot(request: ContributeJackpotRequest) {
+    async contributeJackpot(request: ContributeJackpotRequest): Promise<Result<Jackpots>> {
         try {
             const { gameId, pool, roundId, amount, byBots, byMembers } = request;
             const runningPoolFilter = {
@@ -42,7 +44,7 @@ export class JackpotsService {
             };
             const nearestPoolOrder = { createdAt: -1 };
             const poolAdjustment = { amount, byBots, byMembers };
-            return this.JackpotsModel.findOneAndUpdate(
+            const jackpot = await this.JackpotsModel.findOneAndUpdate(
                 runningPoolFilter,
                 {
                     gameId,
@@ -57,13 +59,14 @@ export class JackpotsService {
             )
                 .lean()
                 .exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, jackpot);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async hitJackpot(request: HitJackpotRequest) {
+    async hitJackpot(request: HitJackpotRequest): Promise<Result<Jackpots>> {
         try {
             const { gameId, pool, roundId, winningRatio, winnerName, winnerId, exchangeRateId, rate, currency, operatorId } = request;
             const runningPoolFilter = {
@@ -90,7 +93,7 @@ export class JackpotsService {
                 winnerName: true,
                 amount: true,
             };
-            return this.JackpotsModel.findOneAndUpdate(
+            const jackpot = await this.JackpotsModel.findOneAndUpdate(
                 runningPoolFilter,
                 {
                     $set: winnerAdjustment,
@@ -104,30 +107,32 @@ export class JackpotsService {
             )
                 .lean()
                 .exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, jackpot);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getTotalExistingPools(gameId: number, pool: number) {
+    async getTotalExistingPools(gameId: number, pool: number): Promise<Result<number>> {
         try {
             const runningPoolsFilter = {
                 gameId,
                 pool,
                 winnerName: { $exists: false },
             };
-            return this.JackpotsModel.countDocuments(runningPoolsFilter).lean().exec();
+            const total = await this.JackpotsModel.countDocuments(runningPoolsFilter).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, total);
         } catch (error) {
             this.logger.error(error);
-            return 0;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async createNewPool(request: CreatePoolRequest) {
+    async createNewPool(request: CreatePoolRequest): Promise<Result<Jackpots>> {
         try {
             const { gameId, gameName, pool, initAmount, amount, roundId } = request;
-            return this.JackpotsModel.create({
+            const jackpot = await this.JackpotsModel.create({
                 gameId,
                 gameName,
                 pool,
@@ -136,13 +141,14 @@ export class JackpotsService {
                 createdAt: roundId,
                 createdTime: new Date(),
             });
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, jackpot);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getLatestRoundId(gameId: number) {
+    async getLatestRoundId(gameId: number): Promise<Result<number>> {
         try {
             const runningPoolFilter = { gameId, winnerName: { $exists: false } };
             const pool = await this.JackpotsModel.findOne(runningPoolFilter, 'createdAt', {
@@ -152,14 +158,14 @@ export class JackpotsService {
             })
                 .lean()
                 .exec();
-            return pool?.createdAt ?? 0;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, pool?.createdAt ?? 0);
         } catch (error) {
             this.logger.error(error);
-            return 0;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getJackpotWinners(gameId: number, page: number, pageSize: number) {
+    async getJackpotWinners(gameId: number, page: number, pageSize: number): Promise<Result<{ winners: Jackpots[]; total: number }>> {
         try {
             const filter = {
                 gameId,
@@ -183,10 +189,10 @@ export class JackpotsService {
                 .lean()
                 .exec();
             const total = await this.JackpotsModel.countDocuments(filter).exec();
-            return { winners, total };
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, { winners, total });
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

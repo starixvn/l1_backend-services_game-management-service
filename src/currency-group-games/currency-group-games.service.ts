@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { CurrencyGroupGames, CurrencyGroupGamesDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
 
 @Injectable()
 export class CurrencyGroupGamesService {
@@ -12,12 +13,13 @@ export class CurrencyGroupGamesService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getCurrencyGroupGamesByGameId(gameId: number) {
+    async getCurrencyGroupGamesByGameId(gameId: number): Promise<Result<CurrencyGroupGames[]>> {
         try {
-            return this.CurrencyGroupGamesModel.find({ gameId, enabled: true }, { _id: 0 }).lean().exec();
+            const currencyGroupGames = await this.CurrencyGroupGamesModel.find({ gameId, enabled: true }, { _id: 0 }).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, currencyGroupGames);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

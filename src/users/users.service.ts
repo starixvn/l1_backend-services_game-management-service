@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 
 import { UserInfos, UserInfosDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
 
 Injectable();
 export class UsersService {
@@ -13,87 +14,95 @@ export class UsersService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getTotalBots() {
+    async getTotalBots(): Promise<Result<number>> {
         try {
-            return this.userInfoModel.countDocuments({ type: true, banned: false }).exec();
+            const total = await this.userInfoModel.countDocuments({ type: true, banned: false }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, total);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getDisableBots(): Promise<UserInfos[]> {
+    async getDisableBots(): Promise<Result<UserInfos[]>> {
         try {
-            return this.userInfoModel.find({ type: true, disabled: true }).lean().exec();
+            const disabledBots = await this.userInfoModel.find({ type: true, disabled: true }).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, disabledBots);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getAllBots(): Promise<UserInfos[]> {
+    async getAllBots(): Promise<Result<UserInfos[]>> {
         try {
-            return this.userInfoModel.find({ type: true, disabled: false, inRoom: false }, 'id name').lean().exec();
+            const allBots = await this.userInfoModel.find({ type: true, disabled: false, inRoom: false }, 'id name').lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, allBots);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateBotsOutRoom(botIds: string[]) {
+    async updateBotsOutRoom(botIds: string[]): Promise<Result<unknown>> {
         try {
-            return this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: false, inGameRoom: '', patternId: 0 }).exec();
+            await this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: false, inGameRoom: '', patternId: 0 }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateBotsJoinRoom(botIds: string[], gameName: string) {
+    async updateBotsJoinRoom(botIds: string[], gameName: string): Promise<Result<unknown>> {
         try {
-            return this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: true, inGameRoom: gameName }).exec();
+            await this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: true, inGameRoom: gameName }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async resetBotsInRoom(gameName: string) {
+    async resetBotsInRoom(gameName: string): Promise<Result<unknown>> {
         try {
-            return this.userInfoModel.updateMany({ type: true, inGameRoom: gameName }, { inRoom: false, inGameRoom: '' }).exec();
+            await this.userInfoModel.updateMany({ type: true, inGameRoom: gameName }, { inRoom: false, inGameRoom: '' }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getUserInfo(id: string): Promise<UserInfos> {
+    async getUserInfo(id: string): Promise<Result<UserInfos>> {
         try {
-            return this.userInfoModel.findOne({ id: id }, { _id: 0, __v: 0 }).lean().exec();
+            const info = await this.userInfoModel.findOne({ id: id }, { _id: 0, __v: 0 }).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, info);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getScoins(id: string) {
+    async getScoins(id: string): Promise<Result<number>> {
         try {
             const userInfo = await this.userInfoModel.findOne({ id: id }, 'scoins').lean().exec();
-            return userInfo.scoins ?? 0;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo.scoins ?? 0);
         } catch (error) {
             this.logger.error(error);
-            return 0;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateStakeLevel(request: UpdateStakeLevelRequest) {
+    async updateStakeLevel(request: UpdateStakeLevelRequest): Promise<Result<unknown>> {
         try {
-            return this.userInfoModel
+            await this.userInfoModel
                 .updateOne({ id: request.id }, { minBet: request.minBet, maxBet: request.maxBet, betLimitModifiedDate: new Date() })
                 .exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

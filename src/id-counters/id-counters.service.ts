@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { IdCounters, IdCountersDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
 
 @Injectable()
 export class IdCountersService {
@@ -12,7 +13,7 @@ export class IdCountersService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async increaseIdCounter(gameName: string, modelNamePostFix: string) {
+    async increaseIdCounter(gameName: string, modelNamePostFix: string): Promise<Result<number>> {
         try {
             const filter = { m: `${gameName}_${modelNamePostFix}`, f: 'id' };
             const increment = { $inc: { c: 1 } };
@@ -24,34 +25,35 @@ export class IdCountersService {
                 fields: { c: 1 },
             };
             const latestCounter = await this.IdCountersModel.findOneAndUpdate(filter, increment, updateOptions).lean().exec();
-            return latestCounter?.c;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, latestCounter?.c);
         } catch (error) {
             this.logger.error(error);
-            return 0;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async getLatestId(gameName: string, modelNamePostFix: string) {
+    async getLatestId(gameName: string, modelNamePostFix: string): Promise<Result<number>> {
         try {
             const latestCounter = await this.IdCountersModel.findOne({ m: `${gameName}_${modelNamePostFix}` }, 'c')
                 .lean()
                 .exec();
-            return latestCounter?.c ?? 0;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, latestCounter?.c ?? 0);
         } catch (error) {
             this.logger.error(error);
-            return 0;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateLatestId(gameName: string, modelNamePostFix: string, id: number) {
+    async updateLatestId(gameName: string, modelNamePostFix: string, id: number): Promise<Result<IdCounters>> {
         try {
             const filter = { m: `${gameName}_${modelNamePostFix}`, f: 'id' };
             const updates = { $set: { c: id } };
             const updateOptions = { setDefaultsOnInsert: true, upsert: true };
-            return this.IdCountersModel.updateOne(filter, updates, updateOptions).lean().exec();
+            const latestIdCounter = await this.IdCountersModel.updateOne(filter, updates, updateOptions).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, latestIdCounter);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }
