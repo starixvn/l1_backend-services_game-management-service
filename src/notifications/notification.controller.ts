@@ -7,7 +7,7 @@ export class NotificationController {
     constructor(private readonly service: NotificationService) {}
 
     @Get('um-messages')
-    async getPromotion(@Query('configName') configName: string): Promise<Result<object>> {
+    async getUmMessages(@Query('configName') configName: string): Promise<Result<object>> {
         return this.service.getUMMessage(configName);
     }
 }
