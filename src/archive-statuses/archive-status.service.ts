@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { ArchiveStatuses, ArchiveStatusesDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class ArchiveStatusService {
@@ -12,12 +13,13 @@ export class ArchiveStatusService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getArchiveStatus(gameName: string) {
+    async getArchiveStatus(gameName: string): Promise<Result<ArchiveStatuses>> {
         try {
-            return this.model.findOne({ name: gameName }).lean().exec();
+            const data = (await this.model.findOne({ name: gameName }).lean().exec()) as ArchiveStatuses;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message, null);
         }
     }
 }

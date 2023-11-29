@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { ArchiveStatuses } from 'src/archive-statuses/schemas';
 import { getBearerToken } from '../_stubs/helper';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('Archive Statuses', () => {
@@ -29,8 +30,8 @@ describe('Archive Statuses', () => {
         const result = await request(app.getHttpServer()).get('/archive-status?gameName=baccarat').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as ArchiveStatuses;
+        const model = JSON.parse(result.text) as Result<ArchiveStatuses>;
         expect(result.status).toBe(200);
-        expect(model.lastArcRoundId).toBe(12);
+        expect(model.data.lastArcRoundId).toBe(12);
     });
 });
