@@ -8,6 +8,7 @@ import { GameConfigs, GameConfigsDocument } from 'src/game-configs/schemas';
 import { getBearerToken } from '../_stubs/helper';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('Game Configs', () => {
@@ -31,9 +32,9 @@ describe('Game Configs', () => {
         const result = await request(app.getHttpServer()).get('/game-configs?gameName=baccarat').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as GameConfigs;
+        const model = JSON.parse(result.text) as Result<GameConfigs>;
         expect(result.status).toBe(200);
-        expect(model.maxbet).toBe(10);
+        expect(model.data.maxbet).toBe(10);
     });
 
     it('/game-configs/exchange-reload (POST)', async () => {
@@ -51,7 +52,7 @@ describe('Game Configs', () => {
         const newData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
         expect(oldData.exchangeReload).toBe(false);
         expect(newData.exchangeReload).toBe(true);
-        expect(JSON.parse(result.text).ok).toBe(1);
+        expect((JSON.parse(result.text) as Result<any>).errorCode).toBe(0);
     });
 
     it('/game-configs/disabled-round (POST)', async () => {
@@ -69,6 +70,6 @@ describe('Game Configs', () => {
         const newData = await gameConfigsModel.findOne({ name: 'baccarat' }).lean().exec();
         expect(oldData.disabledround).toBe(1);
         expect(newData.disabledround).toBe(123);
-        expect(JSON.parse(result.text).ok).toBe(1);
+        expect((JSON.parse(result.text) as Result<any>).errorCode).toBe(0);
     });
 });

@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { Domains, DomainsDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class DomainService {
@@ -12,12 +13,13 @@ export class DomainService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getDomains() {
+    async getDomains(): Promise<Result<Domains>> {
         try {
-            return this.model.findOne({}).lean().exec();
+            const data = (await this.model.findOne({}).lean().exec()) as Domains;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { Promotion, PromotionDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class PromotionService {
@@ -12,12 +13,13 @@ export class PromotionService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getPromotion(gameId: number) {
+    async getPromotion(gameId: number): Promise<Result<Promotion>> {
         try {
-            return this.model.findOne({ gameId, status: 'enabled' }).lean().exec();
+            const data = (await this.model.findOne({ gameId, status: 'enabled' }).lean().exec()) as Promotion;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

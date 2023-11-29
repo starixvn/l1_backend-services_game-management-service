@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
 import { Domains } from 'src/domains/schemas';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('Domain', () => {
@@ -29,8 +30,8 @@ describe('Domain', () => {
         const result = await request(app.getHttpServer()).get('/domain').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as Domains;
+        const model = JSON.parse(result.text) as Result<Domains>;
         expect(result.status).toBe(200);
-        expect(model.value).toEqual('lumigame.com;luminetsoft.com');
+        expect(model.data.value).toEqual('lumigame.com;luminetsoft.com');
     });
 });

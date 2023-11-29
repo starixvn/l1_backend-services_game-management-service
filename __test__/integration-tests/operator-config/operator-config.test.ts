@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
 import { OperatorConfig } from 'src/operator-configs/schemas';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('Operator Config', () => {
@@ -29,8 +30,8 @@ describe('Operator Config', () => {
         const result = await request(app.getHttpServer()).get('/operator-config/game-site-exclusions').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as OperatorConfig;
+        const model = JSON.parse(result.text) as Result<OperatorConfig[]>;
         expect(result.status).toBe(200);
-        expect(model[0].value).toEqual([{ '10': ['site1'] }]);
+        expect(model.data[0].value).toEqual([{ '10': ['site1'] }]);
     });
 });

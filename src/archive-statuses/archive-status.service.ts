@@ -19,7 +19,7 @@ export class ArchiveStatusService {
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message, null);
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

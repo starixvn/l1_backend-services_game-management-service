@@ -1,5 +1,5 @@
 export class Result<T> {
-    constructor(errorCode: number, errorMessage: string, data: T) {
+    constructor(errorCode: number, errorMessage: string, data: T = null) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.data = data;

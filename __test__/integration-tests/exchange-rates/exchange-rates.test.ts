@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
 import { ExchangeRates } from 'src/exchange-rates/schemas';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('ExchangeRates', () => {
@@ -30,9 +31,9 @@ describe('ExchangeRates', () => {
         const result = await request(app.getHttpServer()).get('/exchange-rates').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as ExchangeRates;
+        const model = JSON.parse(result.text) as Result<ExchangeRates>;
         expect(result.status).toBe(200);
-        expect(model.code).toEqual({
+        expect(model.data.code).toEqual({
             AUD: 0.7,
             CAD: 0.78,
         });

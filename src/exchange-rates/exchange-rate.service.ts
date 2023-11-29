@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { ExchangeRates, ExchangeRatesDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class ExchangeRateService {
@@ -12,15 +13,16 @@ export class ExchangeRateService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getExchangeRates() {
+    async getExchangeRates(): Promise<Result<ExchangeRates>> {
         try {
-            return this.model
+            const data = (await this.model
                 .findOne({}, 'exId code', { sort: { exId: -1 } })
                 .lean()
-                .exec();
+                .exec()) as ExchangeRates;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

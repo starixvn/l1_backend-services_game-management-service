@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { GameConfigs, GameConfigsDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class GameConfigsService {
@@ -12,30 +13,33 @@ export class GameConfigsService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getGameConfigs(gameName: string) {
+    async getGameConfigs(gameName: string): Promise<Result<GameConfigs>> {
         try {
-            return this.gameConfigsModel.findOne({ name: gameName }).lean().exec();
+            const data = (await this.gameConfigsModel.findOne({ name: gameName }).lean().exec()) as GameConfigs;
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateExchangeReload(gameName: string, exchangeReload: boolean) {
+    async updateExchangeReload(gameName: string, exchangeReload: boolean): Promise<Result<any>> {
         try {
-            return await this.gameConfigsModel.updateOne({ name: gameName }, { exchangeReload: exchangeReload });
+            await this.gameConfigsModel.updateOne({ name: gameName }, { exchangeReload: exchangeReload });
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 
-    async updateDisabledround(gameName: string, roundId: number) {
+    async updateDisabledround(gameName: string, roundId: number): Promise<Result<any>> {
         try {
-            return await this.gameConfigsModel.updateOne({ name: gameName }, { disabledround: roundId });
+            await this.gameConfigsModel.updateOne({ name: gameName }, { disabledround: roundId });
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
-            return null;
+            return new Result(ErrorCodes.Failed, error.message);
         }
     }
 }

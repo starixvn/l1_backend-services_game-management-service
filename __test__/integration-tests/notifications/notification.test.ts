@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
 import { Notification } from 'src/notifications/schemas';
+import { Result } from 'src/common/models/result';
 
 jest.setTimeout(10000);
 describe('Notification', () => {
@@ -29,7 +30,8 @@ describe('Notification', () => {
         const result = await request(app.getHttpServer()).get('/notification/um-messages?configName=baccarat').set('Authorization', token);
 
         // Assert
+        const model = JSON.parse(result.text) as Result<object>;
         expect(result.status).toBe(200);
-        expect(JSON.parse(result.text)).toEqual({ message: 'um message' });
+        expect(model.data).toEqual({ message: 'um message' });
     });
 });
