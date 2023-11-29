@@ -16,7 +16,7 @@ export default () => ({
         audiences: ['api', 'admin-api', 'game-services'],
     },
     sentry: {
-        dns: process.env.SENTRY_DNS,
+        dsn: process.env.SENTRY_DSN,
         release: process.env.SENTRY_RELEASE,
         env: process.env.ENV,
         logIdentifier: 'game-management-service',

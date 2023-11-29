@@ -1,22 +1,23 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as Sentry from '@sentry/node';
+import { SeverityLevel } from '@sentry/node';
 
 interface SentryConfig {
-    dns: string;
+    dsn: string;
     env: string;
     release: string;
     logIdentifier: string;
 }
 
-declare enum Severity {
-    Fatal = 'fatal',
-    Error = 'error',
-    Warning = 'warning',
-    Log = 'log',
-    Info = 'info',
-    Debug = 'debug',
-}
+const Severity = {
+    Fatal: 'fatal',
+    Error: 'error',
+    Warning: 'warning',
+    Log: 'log',
+    Info: 'info',
+    Debug: 'debug',
+};
 
 @Injectable()
 export class SentryLogger implements LoggerService {
@@ -25,7 +26,7 @@ export class SentryLogger implements LoggerService {
     constructor(private readonly configService: ConfigService) {
         this.config = this.configService.get<SentryConfig>('sentry');
         Sentry.init({
-            dsn: this.config.dns,
+            dsn: this.config.dsn,
             environment: this.config.env,
             maxValueLength: 5000,
             release: this.config.release ? `game-management-service@${this.config.release}` : '',
@@ -34,7 +35,7 @@ export class SentryLogger implements LoggerService {
         Sentry.captureMessage(`Logger started at ${new Date()}`);
     }
 
-    log(message: string, context = Severity.Info) {
+    log(message: string, context = Severity.Info as SeverityLevel) {
         Sentry.captureMessage(message, context);
     }
 
@@ -44,7 +45,7 @@ export class SentryLogger implements LoggerService {
             exception instanceof String ||
             (exception && exception.message == null && exception.stack == null)
         ) {
-            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error);
+            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as SeverityLevel);
         } else {
             if (!exception) {
                 exception = `Exception is null at ${new Date()}`;
@@ -55,15 +56,15 @@ export class SentryLogger implements LoggerService {
     }
 
     warn(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning as SeverityLevel);
     }
 
     debug?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug as SeverityLevel);
     }
 
     verbose?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log);
+        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log as SeverityLevel);
     }
 
     composeBeforeCallMessage(session, params) {
