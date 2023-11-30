@@ -1,4 +1,17 @@
-export class Result<T> {
+import { Type } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+
+export interface IResult<T> {
+    errorCode: number;
+
+    errorMessage: string;
+
+    isSuccessful: boolean;
+
+    data: T;
+}
+
+export class Result<T> implements IResult<T> {
     constructor(errorCode: number, errorMessage: string, data: T = null) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
@@ -6,11 +19,36 @@ export class Result<T> {
         this.isSuccessful = this.errorCode === ErrorCodes.Success;
     }
 
+    @ApiProperty()
     errorCode: number;
+
+    @ApiProperty()
     errorMessage: string;
+
+    @ApiProperty()
     isSuccessful: boolean;
+
+    @ApiProperty({ type: Number })
     data: T;
 }
+
+export const ResultDecorator = <T>(DataClass) => {
+    class ResultDecorator implements IResult<T> {
+        @ApiProperty()
+        errorCode: number;
+
+        @ApiProperty()
+        errorMessage: string;
+
+        @ApiProperty()
+        isSuccessful: boolean;
+
+        @ApiProperty({ type: DataClass })
+        data: T;
+    }
+
+    return ResultDecorator;
+};
 
 export const ErrorCodes = {
     Success: 0,
