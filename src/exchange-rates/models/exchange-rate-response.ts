@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Result } from '../../common/models/result';
 import { ExchangeRates } from '../schemas';
 
-export class ExchangeRateViewModel extends Result<ExchangeRates> {
+export class ExchangeRateResponse extends Result<ExchangeRates> {
     @ApiProperty()
     data: ExchangeRates;
 }

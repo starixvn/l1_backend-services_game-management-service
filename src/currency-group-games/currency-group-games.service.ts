@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { CurrencyGroupGames, CurrencyGroupGamesDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
-import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class CurrencyGroupGamesService {

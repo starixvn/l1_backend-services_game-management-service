@@ -3,14 +3,14 @@ import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
 import { GameConfigsService } from './game-configs.service';
 import { Result } from '../common/models/result';
 import { GameConfigs } from './schemas';
-import { GameConfigViewModel } from './models/game-config-viewmodel';
+import { GameConfigResponse } from './models/game-config-response';
 
 @Controller('game-configs')
 export class GameConfigsController {
     constructor(private readonly service: GameConfigsService) {}
 
     @Get('')
-    @ApiOkResponse({ type: GameConfigViewModel })
+    @ApiOkResponse({ type: GameConfigResponse })
     async getGameConfigs(@Query('gameName') gameName: string): Promise<Result<GameConfigs>> {
         return this.service.getGameConfigs(gameName);
     }

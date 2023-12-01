@@ -24,7 +24,7 @@ async function bootstrap() {
         .addTag('game-management-service')
         .build();
 
-    if (process.env.NODE_ENV !== 'PRO') {
+    if (process.env.NODE_ENV !== 'PROD') {
         const document = SwaggerModule.createDocument(app, config);
         SwaggerModule.setup('api', app, document);
     }

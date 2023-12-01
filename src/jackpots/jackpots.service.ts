@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { Jackpots, JackpotsDocument } from './schemas';
 import { SentryLogger } from '../common/providers';
 import { ContributeJackpotRequest, CreatePoolRequest, HitJackpotRequest } from './models';
-import { ErrorCodes, ErrorMessages, Result } from 'src/common/models/result';
+import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 
 @Injectable()
 export class JackpotsService {

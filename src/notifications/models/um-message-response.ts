@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Result } from '../../common/models/result';
-import { Domains } from '../schemas';
 
-export class DomainViewModel extends Result<Domains> {
+export class UmMessageResponse extends Result<object> {
     @ApiProperty()
-    data: Domains;
+    data: object;
 }
