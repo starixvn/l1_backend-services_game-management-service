@@ -1,4 +1,3 @@
-import { Type } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
 export interface IResult<T> {
@@ -28,7 +27,6 @@ export class Result<T> implements IResult<T> {
     @ApiProperty()
     isSuccessful: boolean;
 
-    @ApiProperty({ type: Number })
     data: T;
 }
 
