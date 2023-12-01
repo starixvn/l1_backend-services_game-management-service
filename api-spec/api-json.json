@@ -1,0 +1,340 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/": { "get": { "operationId": "AppController_getHello", "parameters": [], "responses": { "200": { "description": "" } } } },
+        "/currencies": {
+            "get": { "operationId": "CurrenciesController_getCurrencies", "parameters": [], "responses": { "200": { "description": "" } } }
+        },
+        "/currency-group-games": {
+            "get": {
+                "operationId": "CurrencyGroupGamesController_getCurrencyGroupGamesByGameId",
+                "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/currency-groups": {
+            "get": {
+                "operationId": "CurrencyGroupsController_getCurrencyGroups",
+                "parameters": [],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/game-configs": {
+            "get": {
+                "operationId": "GameConfigsController_getGameConfigs",
+                "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/game-configs/exchange-reload": {
+            "post": {
+                "operationId": "GameConfigsController_updateExchangeReload",
+                "parameters": [
+                    { "name": "exchangeReload", "required": true, "in": "path", "schema": { "type": "boolean" } },
+                    { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
+                ],
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/game-configs/disabled-round": {
+            "post": {
+                "operationId": "GameConfigsController_updateDisabledround",
+                "parameters": [
+                    { "name": "roundId", "required": true, "in": "path", "schema": { "type": "number" } },
+                    { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
+                ],
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/archive-status": {
+            "get": {
+                "operationId": "ArchiveStatusController_getArchiveStatus",
+                "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/promotion": {
+            "get": {
+                "operationId": "PromotionController_getPromotion",
+                "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/operator-config/game-site-exclusions": {
+            "get": {
+                "operationId": "OperatorConfigController_getGameSiteExclusions",
+                "parameters": [],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/domain": {
+            "get": { "operationId": "DomainController_getDomain", "parameters": [], "responses": { "200": { "description": "" } } }
+        },
+        "/users/bots": {
+            "get": { "operationId": "UsersController_getAllBots", "parameters": [], "responses": { "200": { "description": "" } } }
+        },
+        "/users/bots/total": {
+            "get": { "operationId": "UsersController_getTotalBots", "parameters": [], "responses": { "200": { "description": "" } } }
+        },
+        "/users/bots/disabled-bots": {
+            "get": { "operationId": "UsersController_getDisableBots", "parameters": [], "responses": { "200": { "description": "" } } }
+        },
+        "/users/bots/out-room": {
+            "post": {
+                "operationId": "UsersController_updateBotsOutRoom",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateBotsOutRoomRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/users/bots/join-room": {
+            "post": {
+                "operationId": "UsersController_updateBotsJoinRoom",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateBotsJoinRoomRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/users/bots/reset-in-room": {
+            "post": {
+                "operationId": "UsersController_resetBotsInRoom",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResetBotInRoomRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/users/info": {
+            "get": {
+                "operationId": "UsersController_getUserInfo",
+                "parameters": [{ "name": "id", "required": true, "in": "query", "schema": { "type": "string" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/users/scoins": {
+            "get": {
+                "operationId": "UsersController_getUserScoins",
+                "parameters": [{ "name": "id", "required": true, "in": "query", "schema": { "type": "string" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/users/update-stake-level": {
+            "post": {
+                "operationId": "UsersController_updateUserStakeLevel",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateStakeLevelRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/notification/um-messages": {
+            "get": {
+                "operationId": "NotificationController_getUmMessages",
+                "parameters": [{ "name": "configName", "required": true, "in": "query", "schema": { "type": "string" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/jackpots/pools": {
+            "get": {
+                "operationId": "JackpotsController_getPools",
+                "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
+                "responses": { "200": { "description": "" } }
+            },
+            "post": {
+                "operationId": "JackpotsController_createPool",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreatePoolRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/jackpots/pools/total-existing-pools": {
+            "get": {
+                "operationId": "JackpotsController_getTotalExistingPools",
+                "parameters": [
+                    { "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } },
+                    { "name": "pool", "required": true, "in": "query", "schema": { "type": "number" } }
+                ],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/jackpots/latest-roundid": {
+            "get": {
+                "operationId": "JackpotsController_getLatestPool",
+                "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/jackpots/winners": {
+            "get": {
+                "operationId": "JackpotsController_getJackpotWinners",
+                "parameters": [
+                    { "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } },
+                    { "name": "page", "required": true, "in": "query", "schema": { "type": "number" } },
+                    { "name": "pageSize", "required": true, "in": "query", "schema": { "type": "number" } }
+                ],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/jackpots/contribute": {
+            "post": {
+                "operationId": "JackpotsController_contributeJackpot",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContributeJackpotRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/jackpots/hit": {
+            "post": {
+                "operationId": "JackpotsController_hitJackpot",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HitJackpotRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/exchange-rates": {
+            "get": {
+                "operationId": "ExchangeRateController_getExchangeRates",
+                "parameters": [],
+                "responses": { "200": { "description": "" } }
+            }
+        },
+        "/id-counters": {
+            "post": {
+                "operationId": "IdCountersController_increaseIdCounter",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IncreaseIdCounterRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        },
+        "/id-counters/latest-id": {
+            "get": {
+                "operationId": "IdCountersController_getLatestId",
+                "parameters": [
+                    { "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } },
+                    { "name": "modelName", "required": true, "in": "query", "schema": { "type": "string" } }
+                ],
+                "responses": { "200": { "description": "" } }
+            },
+            "post": {
+                "operationId": "IdCountersController_updateLatestId",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateLatestIdCounterRequest" } } }
+                },
+                "responses": { "201": { "description": "" } }
+            }
+        }
+    },
+    "info": {
+        "title": "Game Management Service",
+        "description": "The Game Management Service description",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [{ "name": "game-management-service", "description": "" }],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "UpdateBotsOutRoomRequest": {
+                "type": "object",
+                "properties": { "botIds": { "type": "array", "items": { "type": "string" } } },
+                "required": ["botIds"]
+            },
+            "UpdateBotsJoinRoomRequest": {
+                "type": "object",
+                "properties": { "botIds": { "type": "array", "items": { "type": "string" } }, "gameName": { "type": "string" } },
+                "required": ["botIds", "gameName"]
+            },
+            "ResetBotInRoomRequest": { "type": "object", "properties": { "gameName": { "type": "string" } }, "required": ["gameName"] },
+            "UpdateStakeLevelRequest": {
+                "type": "object",
+                "properties": { "id": { "type": "string" }, "minBet": { "type": "number" }, "maxBet": { "type": "number" } },
+                "required": ["id", "minBet", "maxBet"]
+            },
+            "CreatePoolRequest": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "pool": { "type": "number" },
+                    "roundId": { "type": "number" },
+                    "gameName": { "type": "string" },
+                    "amount": { "type": "number" },
+                    "initAmount": { "type": "number" }
+                },
+                "required": ["gameId", "pool", "roundId", "gameName", "amount", "initAmount"]
+            },
+            "ContributeJackpotRequest": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "pool": { "type": "number" },
+                    "roundId": { "type": "number" },
+                    "amount": { "type": "number" },
+                    "byBots": { "type": "number" },
+                    "byMembers": { "type": "number" }
+                },
+                "required": ["gameId", "pool", "roundId", "amount", "byBots", "byMembers"]
+            },
+            "HitJackpotRequest": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "pool": { "type": "number" },
+                    "roundId": { "type": "number" },
+                    "winningRatio": { "type": "number" },
+                    "winnerName": { "type": "string" },
+                    "winnerId": { "type": "number" },
+                    "rate": { "type": "number" },
+                    "exchangeRateId": { "type": "number" },
+                    "operatorId": { "type": "string" },
+                    "currency": { "type": "string" }
+                },
+                "required": [
+                    "gameId",
+                    "pool",
+                    "roundId",
+                    "winningRatio",
+                    "winnerName",
+                    "winnerId",
+                    "rate",
+                    "exchangeRateId",
+                    "operatorId",
+                    "currency"
+                ]
+            },
+            "IncreaseIdCounterRequest": {
+                "type": "object",
+                "properties": { "gameName": { "type": "string" }, "modelName": { "type": "string" } },
+                "required": ["gameName", "modelName"]
+            },
+            "UpdateLatestIdCounterRequest": {
+                "type": "object",
+                "properties": { "gameName": { "type": "string" }, "modelName": { "type": "string" }, "id": { "type": "number" } },
+                "required": ["gameName", "modelName", "id"]
+            }
+        }
+    }
+}
