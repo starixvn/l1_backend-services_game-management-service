@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import * as mongoose from 'mongoose';
-import { IsNumber, IsString } from 'class-validator';
+import { IsObject, IsString } from 'class-validator';
 
 export type ArchiveStatusesDocument = ArchiveStatuses & mongoose.Document;
 
@@ -12,10 +12,10 @@ export class ArchiveStatuses {
     @ApiProperty()
     name: string;
 
-    @IsNumber()
-    @Prop({ required: true })
+    @IsObject()
+    @Prop({ required: true, type: Object })
     @ApiProperty()
-    lastArcRoundId: number;
+    lastArcId: object;
 }
 
 export const ArchiveStatusesSchema = SchemaFactory.createForClass(ArchiveStatuses);

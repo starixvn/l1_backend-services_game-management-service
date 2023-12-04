@@ -9,7 +9,7 @@ import {
     JackPotsResponse,
 } from './models';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { NumericalResult } from 'src/common/models/result';
+import { NumericalResult } from '../common/models/result';
 
 @Controller('jackpots')
 export class JackpotsController {

@@ -48,7 +48,7 @@ const initArchiveStatues = async (moduleFixture: TestingModule) => {
     // Insert
     const item = new ArchiveStatuses();
     item.name = 'baccarat';
-    item.lastArcRoundId = 12;
+    item.lastArcId = { _rounds: 5 };
 
     await model.insertMany([item]);
 };

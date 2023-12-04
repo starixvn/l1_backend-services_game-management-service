@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { IdCountersService } from './id-counters.service';
 import { IdCounterResponse, IncreaseIdCounterRequest, UpdateLatestIdCounterRequest } from './models';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { NumericalResult } from 'src/common/models/result';
+import { NumericalResult } from '../common/models/result';
 
 @Controller('id-counters')
 export class IdCountersController {

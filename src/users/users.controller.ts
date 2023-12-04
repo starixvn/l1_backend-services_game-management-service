@@ -8,7 +8,7 @@ import {
     BotsResponse,
     UserInfoResponse,
 } from './models';
-import { NumericalResult, Result } from 'src/common/models/result';
+import { NumericalResult, Result } from '../common/models/result';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('users')

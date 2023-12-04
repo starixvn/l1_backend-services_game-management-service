@@ -32,6 +32,6 @@ describe('Archive Statuses', () => {
         // Assert
         const model = JSON.parse(result.text) as Result<ArchiveStatuses>;
         expect(result.status).toBe(200);
-        expect(model.data.lastArcRoundId).toBe(12);
+        expect(model.data.lastArcId).toEqual({ _rounds: 5 });
     });
 });
