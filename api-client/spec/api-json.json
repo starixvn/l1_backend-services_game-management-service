@@ -23,7 +23,12 @@
             "get": {
                 "operationId": "GameConfigsController_getGameConfigs",
                 "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GameConfigViewModel" } } }
+                    }
+                }
             }
         },
         "/game-configs/exchange-reload": {
@@ -33,7 +38,9 @@
                     { "name": "exchangeReload", "required": true, "in": "path", "schema": { "type": "boolean" } },
                     { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
                 ],
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                }
             }
         },
         "/game-configs/disabled-round": {
@@ -43,32 +50,58 @@
                     { "name": "roundId", "required": true, "in": "path", "schema": { "type": "number" } },
                     { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
                 ],
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                }
             }
         },
         "/archive-status": {
             "get": {
                 "operationId": "ArchiveStatusController_getArchiveStatus",
                 "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ArchiveStatusesViewModel" } } }
+                    }
+                }
             }
         },
         "/promotion": {
             "get": {
                 "operationId": "PromotionController_getPromotion",
                 "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PromotionViewModel" } } }
+                    }
+                }
             }
         },
         "/operator-config/game-site-exclusions": {
             "get": {
                 "operationId": "OperatorConfigController_getGameSiteExclusions",
                 "parameters": [],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OperatorConfigsViewModel" } } }
+                    }
+                }
             }
         },
         "/domain": {
-            "get": { "operationId": "DomainController_getDomain", "parameters": [], "responses": { "200": { "description": "" } } }
+            "get": {
+                "operationId": "DomainController_getDomain",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DomainViewModel" } } }
+                    }
+                }
+            }
         },
         "/users/bots": {
             "get": { "operationId": "UsersController_getAllBots", "parameters": [], "responses": { "200": { "description": "" } } }
@@ -141,7 +174,12 @@
             "get": {
                 "operationId": "NotificationController_getUmMessages",
                 "parameters": [{ "name": "configName", "required": true, "in": "query", "schema": { "type": "string" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UmMessageViewModel" } } }
+                    }
+                }
             }
         },
         "/jackpots/pools": {
@@ -214,7 +252,12 @@
             "get": {
                 "operationId": "ExchangeRateController_getExchangeRates",
                 "parameters": [],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeRateViewModel" } } }
+                    }
+                }
             }
         },
         "/id-counters": {
@@ -258,6 +301,150 @@
     "servers": [],
     "components": {
         "schemas": {
+            "GameConfigs": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "enabled": { "type": "boolean" },
+                    "minbet": { "type": "number" },
+                    "maxbet": { "type": "number" },
+                    "disabledround": { "type": "number" },
+                    "botenabled": { "type": "boolean" },
+                    "maxbot": { "type": "number" },
+                    "bot_maxbet": { "type": "number" },
+                    "bot_minbet": { "type": "number" },
+                    "hour_maxbot": { "type": "array", "items": { "type": "string" } },
+                    "disabled_message": { "type": "string" },
+                    "choices_maxbet": { "type": "object" },
+                    "odds": { "type": "object" },
+                    "delayStartTime": { "type": "number" },
+                    "enableFreeBet": { "type": "boolean" },
+                    "slotsConfig": { "type": "object" },
+                    "siteExclusions": { "type": "array", "items": { "type": "string" } },
+                    "smartBotEnabled": { "type": "boolean" },
+                    "smartBotGroupRatio": { "type": "number" },
+                    "exchangeReload": { "type": "boolean" },
+                    "randomMode": { "type": "number" },
+                    "cascadingSlotsConfig": { "type": "object" },
+                    "slotRNGConfig": { "type": "object" },
+                    "gameId": { "type": "number" },
+                    "displayName": { "type": "string" }
+                },
+                "required": [
+                    "name",
+                    "enabled",
+                    "minbet",
+                    "maxbet",
+                    "disabledround",
+                    "botenabled",
+                    "maxbot",
+                    "bot_maxbet",
+                    "bot_minbet",
+                    "hour_maxbot",
+                    "disabled_message",
+                    "choices_maxbet",
+                    "odds",
+                    "delayStartTime",
+                    "enableFreeBet",
+                    "slotsConfig",
+                    "siteExclusions",
+                    "smartBotEnabled",
+                    "smartBotGroupRatio",
+                    "exchangeReload",
+                    "randomMode",
+                    "cascadingSlotsConfig",
+                    "slotRNGConfig",
+                    "gameId",
+                    "displayName"
+                ]
+            },
+            "GameConfigViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/GameConfigs" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "Result": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful"]
+            },
+            "ArchiveStatuses": {
+                "type": "object",
+                "properties": { "name": { "type": "string" }, "lastArcRoundId": { "type": "number" } },
+                "required": ["name", "lastArcRoundId"]
+            },
+            "ArchiveStatusesViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/ArchiveStatuses" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "Promotion": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "odds": { "type": "object" },
+                    "startDateTime": { "format": "date-time", "type": "string" },
+                    "endDateTime": { "format": "date-time", "type": "string" },
+                    "status": { "type": "string" },
+                    "isDaily": { "type": "boolean" }
+                },
+                "required": ["gameId", "odds", "startDateTime", "endDateTime", "status", "isDaily"]
+            },
+            "PromotionViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Promotion" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "OperatorConfig": {
+                "type": "object",
+                "properties": {
+                    "type": { "type": "string" },
+                    "partnerId": { "type": "string" },
+                    "value": { "type": "object" },
+                    "operatorId": { "type": "string" }
+                },
+                "required": ["type", "partnerId", "value", "operatorId"]
+            },
+            "OperatorConfigsViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/OperatorConfig" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "Domains": { "type": "object", "properties": { "value": { "type": "string" } }, "required": ["value"] },
+            "DomainViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Domains" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
             "UpdateBotsOutRoomRequest": {
                 "type": "object",
                 "properties": { "botIds": { "type": "array", "items": { "type": "string" } } },
@@ -273,6 +460,16 @@
                 "type": "object",
                 "properties": { "id": { "type": "string" }, "minBet": { "type": "number" }, "maxBet": { "type": "number" } },
                 "required": ["id", "minBet", "maxBet"]
+            },
+            "UmMessageViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "object" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
             "CreatePoolRequest": {
                 "type": "object",
@@ -324,6 +521,26 @@
                     "operatorId",
                     "currency"
                 ]
+            },
+            "ExchangeRates": {
+                "type": "object",
+                "properties": {
+                    "exId": { "type": "number" },
+                    "time": { "format": "date-time", "type": "string" },
+                    "source": { "type": "string" },
+                    "code": { "type": "object" }
+                },
+                "required": ["exId", "time", "source", "code"]
+            },
+            "ExchangeRateViewModel": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/ExchangeRates" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
             "IncreaseIdCounterRequest": {
                 "type": "object",
