@@ -1,10 +1,11 @@
 import { Controller, Get, Query, Post, Body } from '@nestjs/common';
-import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiParam } from '@nestjs/swagger';
 import { GameConfigsService } from './game-configs.service';
 import { Result } from '../common/models/result';
 import { GameConfigs } from './schemas';
 import { GameConfigResponse } from './models/game-config-response';
 
+@ApiBearerAuth()
 @Controller('game-configs')
 export class GameConfigsController {
     constructor(private readonly service: GameConfigsService) {}

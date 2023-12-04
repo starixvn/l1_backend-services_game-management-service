@@ -18,6 +18,7 @@ async function bootstrap() {
 
     await app.init();
     const config = new DocumentBuilder()
+        .addBearerAuth()
         .setTitle('Game Management Service')
         .setDescription('The Game Management Service description')
         .setVersion('1.0')
