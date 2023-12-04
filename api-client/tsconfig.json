@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "rootDir": "./generated",
+        "outDir": "./lib",
+        "lib": ["ES2015"],
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "target": "ES2015",
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": ["tests/", "lib/", "node_modules/", "src/statistics/", "coverage/", "reports/"],
+    "watchOptions": {
+        "excludeDirectories": ["lib/*"]
+    }
+}
