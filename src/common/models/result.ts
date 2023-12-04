@@ -30,6 +30,11 @@ export class Result<T> implements IResult<T> {
     data: T;
 }
 
+export class NumericalResult extends Result<number> {
+    @ApiProperty()
+    data: number;
+}
+
 export const ResultDecorator = <T>(DataClass) => {
     class ResultDecorator implements IResult<T> {
         @ApiProperty()
