@@ -6,6 +6,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { SentryLogger } from './common/providers/logger.service';
+import { writeFileSync } from 'node:fs';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
@@ -27,6 +28,7 @@ async function bootstrap() {
 
     if (process.env.NODE_ENV !== 'PROD') {
         const document = SwaggerModule.createDocument(app, config);
+        writeFileSync('./api-client/api-spec.json', JSON.stringify(document));
         SwaggerModule.setup('api', app, document);
     }
 
