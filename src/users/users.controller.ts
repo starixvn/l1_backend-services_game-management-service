@@ -1,15 +1,16 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { NumericalResult, Result } from '../common/models/result';
 import {
-    UpdateBotsOutRoomRequest,
-    UpdateBotsJoinRoomRequest,
-    ResetBotInRoomRequest,
-    UpdateStakeLevelRequest,
     BotsResponse,
+    ResetBotInRoomRequest,
+    UpdateBotsJoinRoomRequest,
+    UpdateBotsOutRoomRequest,
+    UpdateStakeLevelRequest,
     UserInfoResponse,
 } from './models';
-import { NumericalResult, Result } from '../common/models/result';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UpdateBalanceRequest } from './models/update-balance-request';
+import { UsersService } from './users.service';
 
 @ApiTags('users')
 @Controller('users')
@@ -77,5 +78,12 @@ export class UsersController {
     @ApiOkResponse({ type: Result })
     async updateUserStakeLevel(@Body() body: UpdateStakeLevelRequest) {
         return this.usersService.updateStakeLevel(body);
+    }
+
+    @Post('update-balance')
+    @ApiOperation({ operationId: 'updateBalance' })
+    @ApiOkResponse({ type: Result })
+    async updateBalance(@Body() body: UpdateBalanceRequest) {
+        return this.usersService.updateBalance(body);
     }
 }

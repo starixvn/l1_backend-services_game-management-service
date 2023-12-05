@@ -1,11 +1,12 @@
-import { UpdateStakeLevelRequest } from './models/update-stake-level-request';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UpdateStakeLevelRequest } from './models/update-stake-level-request';
 
-import { UserInfos, UserInfosDocument } from './schemas';
-import { SentryLogger } from '../common/providers';
 import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
+import { SentryLogger } from '../common/providers';
+import { UpdateBalanceRequest } from './models/update-balance-request';
+import { UserInfos, UserInfosDocument } from './schemas';
 
 Injectable();
 export class UsersService {
@@ -100,6 +101,19 @@ export class UsersService {
                 .updateOne({ id: request.id }, { minBet: request.minBet, maxBet: request.maxBet, betLimitModifiedDate: new Date() })
                 .exec();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
+    async updateBalance(request: UpdateBalanceRequest): Promise<Result<UserInfos>> {
+        try {
+            const userInfo = await this.userInfoModel.findOneAndUpdate(
+                { id: request.id, red: { $gt: request.deductionAmount } },
+                { $inc: { red: -request.deductionAmount } },
+                { new: true, lean: true },
+            );
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);
