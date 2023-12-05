@@ -21,38 +21,47 @@
         },
         "/game-configs": {
             "get": {
-                "operationId": "GameConfigsController_getGameConfigs",
+                "operationId": "getGameConfigs",
+                "summary": "",
                 "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GameConfigViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GameConfigResponse" } } }
                     }
-                }
+                },
+                "tags": ["game-configs"],
+                "security": [{ "bearer": [] }]
             }
         },
         "/game-configs/exchange-reload": {
             "post": {
-                "operationId": "GameConfigsController_updateExchangeReload",
+                "operationId": "updateExchangeReload",
+                "summary": "",
                 "parameters": [
                     { "name": "exchangeReload", "required": true, "in": "path", "schema": { "type": "boolean" } },
                     { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
                 ],
                 "responses": {
                     "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
-                }
+                },
+                "tags": ["game-configs"],
+                "security": [{ "bearer": [] }]
             }
         },
         "/game-configs/disabled-round": {
             "post": {
-                "operationId": "GameConfigsController_updateDisabledround",
+                "operationId": "updateDisabledround",
+                "summary": "",
                 "parameters": [
                     { "name": "roundId", "required": true, "in": "path", "schema": { "type": "number" } },
                     { "name": "gameName", "required": true, "in": "path", "schema": { "type": "string" } }
                 ],
                 "responses": {
                     "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
-                }
+                },
+                "tags": ["game-configs"],
+                "security": [{ "bearer": [] }]
             }
         },
         "/archive-status": {
@@ -62,7 +71,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ArchiveStatusesViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ArchiveStatusesResponse" } } }
                     }
                 }
             }
@@ -74,7 +83,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PromotionViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PromotionResponse" } } }
                     }
                 }
             }
@@ -86,7 +95,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OperatorConfigsViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OperatorConfigsResponse" } } }
                     }
                 }
             }
@@ -98,7 +107,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DomainViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DomainResponse" } } }
                     }
                 }
             }
@@ -177,7 +186,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UmMessageViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UmMessageResponse" } } }
                     }
                 }
             }
@@ -255,7 +264,7 @@
                 "responses": {
                     "200": {
                         "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeRateViewModel" } } }
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeRateResponse" } } }
                     }
                 }
             }
@@ -300,6 +309,7 @@
     "tags": [{ "name": "game-management-service", "description": "" }],
     "servers": [],
     "components": {
+        "securitySchemes": { "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" } },
         "schemas": {
             "GameConfigs": {
                 "type": "object",
@@ -358,7 +368,7 @@
                     "displayName"
                 ]
             },
-            "GameConfigViewModel": {
+            "GameConfigResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -382,7 +392,7 @@
                 "properties": { "name": { "type": "string" }, "lastArcRoundId": { "type": "number" } },
                 "required": ["name", "lastArcRoundId"]
             },
-            "ArchiveStatusesViewModel": {
+            "ArchiveStatusesResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -404,7 +414,7 @@
                 },
                 "required": ["gameId", "odds", "startDateTime", "endDateTime", "status", "isDaily"]
             },
-            "PromotionViewModel": {
+            "PromotionResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -424,7 +434,7 @@
                 },
                 "required": ["type", "partnerId", "value", "operatorId"]
             },
-            "OperatorConfigsViewModel": {
+            "OperatorConfigsResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -435,7 +445,7 @@
                 "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
             "Domains": { "type": "object", "properties": { "value": { "type": "string" } }, "required": ["value"] },
-            "DomainViewModel": {
+            "DomainResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -461,7 +471,7 @@
                 "properties": { "id": { "type": "string" }, "minBet": { "type": "number" }, "maxBet": { "type": "number" } },
                 "required": ["id", "minBet", "maxBet"]
             },
-            "UmMessageViewModel": {
+            "UmMessageResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
@@ -532,7 +542,7 @@
                 },
                 "required": ["exId", "time", "source", "code"]
             },
-            "ExchangeRateViewModel": {
+            "ExchangeRateResponse": {
                 "type": "object",
                 "properties": {
                     "errorCode": { "type": "number" },
