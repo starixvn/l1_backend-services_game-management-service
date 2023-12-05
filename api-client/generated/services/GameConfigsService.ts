@@ -9,54 +9,64 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
 export class GameConfigsService {
+
     constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
-     * @param gameName
-     * @returns GameConfigResponse
+     * @param gameName 
+     * @returns GameConfigResponse 
      * @throws ApiError
      */
-    public getGameConfigs(gameName: string): CancelablePromise<GameConfigResponse> {
+    public getGameConfigs(
+gameName: string,
+): CancelablePromise<GameConfigResponse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/game-configs',
             query: {
-                gameName: gameName,
+                'gameName': gameName,
             },
         });
     }
 
     /**
-     * @param exchangeReload
-     * @param gameName
-     * @returns Result
+     * @param exchangeReload 
+     * @param gameName 
+     * @returns Result 
      * @throws ApiError
      */
-    public updateExchangeReload(exchangeReload: boolean, gameName: string): CancelablePromise<Result> {
+    public updateExchangeReload(
+exchangeReload: boolean,
+gameName: string,
+): CancelablePromise<Result> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/game-configs/exchange-reload',
             path: {
-                exchangeReload: exchangeReload,
-                gameName: gameName,
+                'exchangeReload': exchangeReload,
+                'gameName': gameName,
             },
         });
     }
 
     /**
-     * @param roundId
-     * @param gameName
-     * @returns Result
+     * @param roundId 
+     * @param gameName 
+     * @returns Result 
      * @throws ApiError
      */
-    public updateDisabledround(roundId: number, gameName: string): CancelablePromise<Result> {
+    public updateDisabledround(
+roundId: number,
+gameName: string,
+): CancelablePromise<Result> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/game-configs/disabled-round',
             path: {
-                roundId: roundId,
-                gameName: gameName,
+                'roundId': roundId,
+                'gameName': gameName,
             },
         });
     }
+
 }

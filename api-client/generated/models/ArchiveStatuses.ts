@@ -5,5 +5,5 @@
 
 export type ArchiveStatuses = {
     name: string;
-    lastArcRoundId: number;
+    lastArcId: Record<string, any>;
 };

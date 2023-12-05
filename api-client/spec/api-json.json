@@ -3,20 +3,45 @@
     "paths": {
         "/": { "get": { "operationId": "AppController_getHello", "parameters": [], "responses": { "200": { "description": "" } } } },
         "/currencies": {
-            "get": { "operationId": "CurrenciesController_getCurrencies", "parameters": [], "responses": { "200": { "description": "" } } }
+            "get": {
+                "operationId": "getCurrencies",
+                "summary": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrenciesResponse" } } }
+                    }
+                },
+                "tags": ["currencies"]
+            }
         },
         "/currency-group-games": {
             "get": {
-                "operationId": "CurrencyGroupGamesController_getCurrencyGroupGamesByGameId",
+                "operationId": "getCurrencyGroupGamesByGameId",
+                "summary": "",
                 "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyGroupGamesResponse" } } }
+                    }
+                },
+                "tags": ["currency-group-games"]
             }
         },
         "/currency-groups": {
             "get": {
-                "operationId": "CurrencyGroupsController_getCurrencyGroups",
+                "operationId": "getCurrencyGroups",
+                "summary": "",
                 "parameters": [],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CurrencyGroupsResponse" } } }
+                    }
+                },
+                "tags": ["currency-groups"]
             }
         },
         "/game-configs": {
@@ -66,251 +91,411 @@
         },
         "/archive-status": {
             "get": {
-                "operationId": "ArchiveStatusController_getArchiveStatus",
+                "operationId": "getArchiveStatus",
+                "summary": "",
                 "parameters": [{ "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } }],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ArchiveStatusesResponse" } } }
                     }
-                }
+                },
+                "tags": ["archive-status"]
             }
         },
         "/promotion": {
             "get": {
-                "operationId": "PromotionController_getPromotion",
+                "operationId": "getPromotion",
+                "summary": "",
                 "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PromotionResponse" } } }
                     }
-                }
+                },
+                "tags": ["promotion"]
             }
         },
         "/operator-config/game-site-exclusions": {
             "get": {
-                "operationId": "OperatorConfigController_getGameSiteExclusions",
+                "operationId": "getGameSiteExclusions",
+                "summary": "",
                 "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OperatorConfigsResponse" } } }
                     }
-                }
+                },
+                "tags": ["operator-config"]
             }
         },
         "/domain": {
             "get": {
-                "operationId": "DomainController_getDomain",
+                "operationId": "getDomain",
+                "summary": "",
                 "parameters": [],
                 "responses": {
-                    "200": {
-                        "description": "",
-                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DomainResponse" } } }
-                    }
-                }
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DomainResponse" } } } }
+                },
+                "tags": ["domain"]
             }
         },
         "/users/bots": {
-            "get": { "operationId": "UsersController_getAllBots", "parameters": [], "responses": { "200": { "description": "" } } }
+            "get": {
+                "operationId": "getAllBots",
+                "summary": "",
+                "parameters": [],
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BotsResponse" } } } }
+                },
+                "tags": ["users"]
+            }
         },
         "/users/bots/total": {
-            "get": { "operationId": "UsersController_getTotalBots", "parameters": [], "responses": { "200": { "description": "" } } }
+            "get": {
+                "operationId": "getTotalBots",
+                "summary": "",
+                "parameters": [],
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["users"]
+            }
         },
         "/users/bots/disabled-bots": {
-            "get": { "operationId": "UsersController_getDisableBots", "parameters": [], "responses": { "200": { "description": "" } } }
+            "get": {
+                "operationId": "getDisableBots",
+                "summary": "",
+                "parameters": [],
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BotsResponse" } } } }
+                },
+                "tags": ["users"]
+            }
         },
         "/users/bots/out-room": {
             "post": {
-                "operationId": "UsersController_updateBotsOutRoom",
+                "operationId": "updateBotsOutRoom",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateBotsOutRoomRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/users/bots/join-room": {
             "post": {
-                "operationId": "UsersController_updateBotsJoinRoom",
+                "operationId": "updateBotsJoinRoom",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateBotsJoinRoomRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/users/bots/reset-in-room": {
             "post": {
-                "operationId": "UsersController_resetBotsInRoom",
+                "operationId": "resetBotsInRoom",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResetBotInRoomRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/users/info": {
             "get": {
-                "operationId": "UsersController_getUserInfo",
+                "operationId": "getUserInfo",
+                "summary": "",
                 "parameters": [{ "name": "id", "required": true, "in": "query", "schema": { "type": "string" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserInfoResponse" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/users/scoins": {
             "get": {
-                "operationId": "UsersController_getUserScoins",
+                "operationId": "getUserScoins",
+                "summary": "",
                 "parameters": [{ "name": "id", "required": true, "in": "query", "schema": { "type": "string" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/users/update-stake-level": {
             "post": {
-                "operationId": "UsersController_updateUserStakeLevel",
+                "operationId": "updateUserStakeLevel",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateStakeLevelRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Result" } } } }
+                },
+                "tags": ["users"]
             }
         },
         "/notification/um-messages": {
             "get": {
-                "operationId": "NotificationController_getUmMessages",
+                "operationId": "getUmMessages",
+                "summary": "",
                 "parameters": [{ "name": "configName", "required": true, "in": "query", "schema": { "type": "string" } }],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UmMessageResponse" } } }
                     }
-                }
+                },
+                "tags": ["notification"]
             }
         },
         "/jackpots/pools": {
             "get": {
-                "operationId": "JackpotsController_getPools",
+                "operationId": "getPools",
+                "summary": "",
                 "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/JackPotsResponse" } } } }
+                },
+                "tags": ["jackpots"]
             },
             "post": {
-                "operationId": "JackpotsController_createPool",
+                "operationId": "createPool",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreatePoolRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/JackPotResponse" } } } }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/jackpots/pools/total-existing-pools": {
             "get": {
-                "operationId": "JackpotsController_getTotalExistingPools",
+                "operationId": "getTotalExistingPools",
+                "summary": "",
                 "parameters": [
                     { "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } },
                     { "name": "pool", "required": true, "in": "query", "schema": { "type": "number" } }
                 ],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/jackpots/latest-roundid": {
             "get": {
-                "operationId": "JackpotsController_getLatestPool",
+                "operationId": "getLatestRoundId",
+                "summary": "",
                 "parameters": [{ "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } }],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/jackpots/winners": {
             "get": {
-                "operationId": "JackpotsController_getJackpotWinners",
+                "operationId": "getJackpotWinners",
+                "summary": "",
                 "parameters": [
                     { "name": "gameId", "required": true, "in": "query", "schema": { "type": "number" } },
                     { "name": "page", "required": true, "in": "query", "schema": { "type": "number" } },
                     { "name": "pageSize", "required": true, "in": "query", "schema": { "type": "number" } }
                 ],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/JackPotWinnersResponse" } } }
+                    }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/jackpots/contribute": {
             "post": {
-                "operationId": "JackpotsController_contributeJackpot",
+                "operationId": "contributeJackpot",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContributeJackpotRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/JackPotResponse" } } } }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/jackpots/hit": {
             "post": {
-                "operationId": "JackpotsController_hitJackpot",
+                "operationId": "hitJackpot",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HitJackpotRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/JackPotResponse" } } } }
+                },
+                "tags": ["jackpots"]
             }
         },
         "/exchange-rates": {
             "get": {
-                "operationId": "ExchangeRateController_getExchangeRates",
+                "operationId": "getExchangeRates",
+                "summary": "",
                 "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExchangeRateResponse" } } }
                     }
-                }
+                },
+                "tags": ["exchange-rates"]
             }
         },
         "/id-counters": {
             "post": {
-                "operationId": "IdCountersController_increaseIdCounter",
+                "operationId": "increaseIdCounter",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IncreaseIdCounterRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["id-counters"]
             }
         },
         "/id-counters/latest-id": {
             "get": {
-                "operationId": "IdCountersController_getLatestId",
+                "operationId": "getLatestId",
+                "summary": "",
                 "parameters": [
                     { "name": "gameName", "required": true, "in": "query", "schema": { "type": "string" } },
                     { "name": "modelName", "required": true, "in": "query", "schema": { "type": "string" } }
                 ],
-                "responses": { "200": { "description": "" } }
+                "responses": {
+                    "200": { "description": "", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NumericalResult" } } } }
+                },
+                "tags": ["id-counters"]
             },
             "post": {
-                "operationId": "IdCountersController_updateLatestId",
+                "operationId": "updateLatestId",
+                "summary": "",
                 "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateLatestIdCounterRequest" } } }
                 },
-                "responses": { "201": { "description": "" } }
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IdCounterResponse" } } }
+                    }
+                },
+                "tags": ["id-counters"]
             }
         }
     },
-    "info": {
-        "title": "Game Management Service",
-        "description": "The Game Management Service description",
-        "version": "1.0",
-        "contact": {}
-    },
+    "info": { "title": "Game Management Service", "description": "The Game Management Service description", "version": "1.0", "contact": {} },
     "tags": [{ "name": "game-management-service", "description": "" }],
     "servers": [],
     "components": {
         "securitySchemes": { "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" } },
         "schemas": {
+            "Currencies": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "code": { "type": "string" },
+                    "multiplier": { "type": "number" },
+                    "isTest": { "type": "boolean" },
+                    "partnerId": { "type": "string" },
+                    "groupId": { "type": "string" },
+                    "isUncountOnTotal": { "type": "boolean" }
+                },
+                "required": ["name", "code", "multiplier", "isTest", "partnerId", "groupId", "isUncountOnTotal"]
+            },
+            "CurrenciesResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Currencies" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "CurrencyGroupGames": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "gameName": { "type": "string" },
+                    "groupId": { "type": "string" },
+                    "minBet": { "type": "number" },
+                    "maxBet": { "type": "number" },
+                    "maxBetPerChoice": { "type": "object" },
+                    "chips": { "type": "array", "items": { "type": "number" } },
+                    "stakeLevels": { "type": "array", "items": { "type": "object" } }
+                },
+                "required": ["gameId", "gameName", "groupId", "minBet", "maxBet", "maxBetPerChoice", "chips", "stakeLevels"]
+            },
+            "CurrencyGroupGamesResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/CurrencyGroupGames" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "CurrencyGroups": {
+                "type": "object",
+                "properties": { "name": { "type": "string" }, "partnerId": { "type": "string" }, "fractionalOddsFormat": { "type": "boolean" } },
+                "required": ["name", "partnerId", "fractionalOddsFormat"]
+            },
+            "CurrencyGroupsResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/CurrencyGroups" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
             "GameConfigs": {
                 "type": "object",
                 "properties": {
@@ -380,17 +565,13 @@
             },
             "Result": {
                 "type": "object",
-                "properties": {
-                    "errorCode": { "type": "number" },
-                    "errorMessage": { "type": "string" },
-                    "isSuccessful": { "type": "boolean" }
-                },
+                "properties": { "errorCode": { "type": "number" }, "errorMessage": { "type": "string" }, "isSuccessful": { "type": "boolean" } },
                 "required": ["errorCode", "errorMessage", "isSuccessful"]
             },
             "ArchiveStatuses": {
                 "type": "object",
-                "properties": { "name": { "type": "string" }, "lastArcRoundId": { "type": "number" } },
-                "required": ["name", "lastArcRoundId"]
+                "properties": { "name": { "type": "string" }, "lastArcId": { "type": "object" } },
+                "required": ["name", "lastArcId"]
             },
             "ArchiveStatusesResponse": {
                 "type": "object",
@@ -455,6 +636,68 @@
                 },
                 "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
+            "Settings": {
+                "type": "object",
+                "properties": { "quickBet": { "type": "boolean" }, "theme": { "type": "string" } },
+                "required": ["quickBet", "theme"]
+            },
+            "UserInfos": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "UID": { "type": "number" },
+                    "name": { "type": "string" },
+                    "joinedOn": { "format": "date-time", "type": "string" },
+                    "red": { "type": "number" },
+                    "type": { "type": "boolean" },
+                    "avatarId": { "type": "number" },
+                    "currency": { "type": "string" },
+                    "inRoom": { "type": "boolean" },
+                    "disabled": { "type": "boolean" },
+                    "inGameRoom": { "type": "string" },
+                    "minBet": { "type": "number" },
+                    "maxBet": { "type": "number" },
+                    "settings": { "$ref": "#/components/schemas/Settings" },
+                    "scoins": { "type": "number" }
+                },
+                "required": [
+                    "id",
+                    "UID",
+                    "name",
+                    "joinedOn",
+                    "red",
+                    "type",
+                    "avatarId",
+                    "currency",
+                    "inRoom",
+                    "disabled",
+                    "inGameRoom",
+                    "minBet",
+                    "maxBet",
+                    "settings",
+                    "scoins"
+                ]
+            },
+            "BotsResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/UserInfos" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "NumericalResult": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "number" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
             "UpdateBotsOutRoomRequest": {
                 "type": "object",
                 "properties": { "botIds": { "type": "array", "items": { "type": "string" } } },
@@ -466,6 +709,16 @@
                 "required": ["botIds", "gameName"]
             },
             "ResetBotInRoomRequest": { "type": "object", "properties": { "gameName": { "type": "string" } }, "required": ["gameName"] },
+            "UserInfoResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/UserInfos" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
             "UpdateStakeLevelRequest": {
                 "type": "object",
                 "properties": { "id": { "type": "string" }, "minBet": { "type": "number" }, "maxBet": { "type": "number" } },
@@ -481,6 +734,55 @@
                 },
                 "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
+            "Jackpots": {
+                "type": "object",
+                "properties": {
+                    "gameId": { "type": "number" },
+                    "gameName": { "type": "string" },
+                    "pool": { "type": "number" },
+                    "initAmount": { "type": "number" },
+                    "amount": { "type": "number" },
+                    "winningRatio": { "type": "number" },
+                    "winnerName": { "type": "string" },
+                    "winnerId": { "type": "number" },
+                    "byBots": { "type": "number" },
+                    "byMembers": { "type": "number" },
+                    "createdAt": { "type": "number" },
+                    "hitAt": { "type": "number" },
+                    "rate": { "type": "number" },
+                    "exchangeRateId": { "type": "number" },
+                    "operatorId": { "type": "string" },
+                    "currency": { "type": "string" }
+                },
+                "required": [
+                    "gameId",
+                    "gameName",
+                    "pool",
+                    "initAmount",
+                    "amount",
+                    "winningRatio",
+                    "winnerName",
+                    "winnerId",
+                    "byBots",
+                    "byMembers",
+                    "createdAt",
+                    "hitAt",
+                    "rate",
+                    "exchangeRateId",
+                    "operatorId",
+                    "currency"
+                ]
+            },
+            "JackPotsResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Jackpots" } }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
             "CreatePoolRequest": {
                 "type": "object",
                 "properties": {
@@ -492,6 +794,31 @@
                     "initAmount": { "type": "number" }
                 },
                 "required": ["gameId", "pool", "roundId", "gameName", "amount", "initAmount"]
+            },
+            "JackPotResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/Jackpots" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
+            },
+            "JackPotWinners": {
+                "type": "object",
+                "properties": { "winners": { "type": "array", "items": { "$ref": "#/components/schemas/Jackpots" } }, "total": { "type": "number" } },
+                "required": ["winners", "total"]
+            },
+            "JackPotWinnersResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/JackPotWinners" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             },
             "ContributeJackpotRequest": {
                 "type": "object",
@@ -561,6 +888,21 @@
                 "type": "object",
                 "properties": { "gameName": { "type": "string" }, "modelName": { "type": "string" }, "id": { "type": "number" } },
                 "required": ["gameName", "modelName", "id"]
+            },
+            "IdCounters": {
+                "type": "object",
+                "properties": { "c": { "type": "number" }, "f": { "type": "string" }, "m": { "type": "string" } },
+                "required": ["c", "f", "m"]
+            },
+            "IdCounterResponse": {
+                "type": "object",
+                "properties": {
+                    "errorCode": { "type": "number" },
+                    "errorMessage": { "type": "string" },
+                    "isSuccessful": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/IdCounters" }
+                },
+                "required": ["errorCode", "errorMessage", "isSuccessful", "data"]
             }
         }
     }
