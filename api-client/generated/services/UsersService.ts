@@ -6,6 +6,7 @@ import type { BotsResponse } from '../models/BotsResponse';
 import type { NumericalResult } from '../models/NumericalResult';
 import type { ResetBotInRoomRequest } from '../models/ResetBotInRoomRequest';
 import type { Result } from '../models/Result';
+import type { UpdateBalanceRequest } from '../models/UpdateBalanceRequest';
 import type { UpdateBotsJoinRoomRequest } from '../models/UpdateBotsJoinRoomRequest';
 import type { UpdateBotsOutRoomRequest } from '../models/UpdateBotsOutRoomRequest';
 import type { UpdateStakeLevelRequest } from '../models/UpdateStakeLevelRequest';
@@ -144,6 +145,22 @@ requestBody: UpdateStakeLevelRequest,
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/update-stake-level',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns Result 
+     * @throws ApiError
+     */
+    public updateBalance(
+requestBody: UpdateBalanceRequest,
+): CancelablePromise<Result> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/update-balance',
             body: requestBody,
             mediaType: 'application/json',
         });

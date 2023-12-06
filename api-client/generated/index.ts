@@ -45,6 +45,7 @@ export type { ResetBotInRoomRequest } from './models/ResetBotInRoomRequest';
 export type { Result } from './models/Result';
 export type { Settings } from './models/Settings';
 export type { UmMessageResponse } from './models/UmMessageResponse';
+export type { UpdateBalanceRequest } from './models/UpdateBalanceRequest';
 export type { UpdateBotsJoinRoomRequest } from './models/UpdateBotsJoinRoomRequest';
 export type { UpdateBotsOutRoomRequest } from './models/UpdateBotsOutRoomRequest';
 export type { UpdateLatestIdCounterRequest } from './models/UpdateLatestIdCounterRequest';

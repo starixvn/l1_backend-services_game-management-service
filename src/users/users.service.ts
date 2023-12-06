@@ -108,11 +108,13 @@ export class UsersService {
     }
     async updateBalance(request: UpdateBalanceRequest): Promise<Result<UserInfos>> {
         try {
-            const userInfo = await this.userInfoModel.findOneAndUpdate(
-                { id: request.id, red: { $gt: request.deductionAmount } },
-                { $inc: { red: -request.deductionAmount } },
-                { new: true, lean: true },
-            );
+            const userInfo = await this.userInfoModel
+                .findOneAndUpdate(
+                    { id: request.id, red: { $gt: request.deductionAmount } },
+                    { $inc: { red: -request.deductionAmount } },
+                    { new: true, lean: true },
+                )
+                .lean();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo);
         } catch (error) {
             this.logger.error(error);
