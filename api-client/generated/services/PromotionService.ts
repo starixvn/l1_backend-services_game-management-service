@@ -16,7 +16,7 @@ export class PromotionService {
      * @returns PromotionResponse 
      * @throws ApiError
      */
-    public getPromotion(
+    public getPromotions(
 gameId: number,
 ): CancelablePromise<PromotionResponse> {
         return this.httpRequest.request({

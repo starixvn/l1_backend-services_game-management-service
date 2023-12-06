@@ -11,9 +11,9 @@ export class PromotionController {
     constructor(private readonly service: PromotionService) {}
 
     @Get('/')
-    @ApiOperation({ operationId: 'getPromotion' })
+    @ApiOperation({ operationId: 'getPromotions' })
     @ApiOkResponse({ type: PromotionResponse })
-    async getPromotion(@Query('gameId') gameId: number): Promise<Result<Promotion[]>> {
-        return this.service.getPromotion(gameId);
+    async getPromotions(@Query('gameId') gameId: number): Promise<Result<Promotion[]>> {
+        return this.service.getPromotions(gameId);
     }
 }
