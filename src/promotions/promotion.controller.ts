@@ -13,7 +13,7 @@ export class PromotionController {
     @Get('/')
     @ApiOperation({ operationId: 'getPromotion' })
     @ApiOkResponse({ type: PromotionResponse })
-    async getPromotion(@Query('gameId') gameId: number): Promise<Result<Promotion>> {
+    async getPromotion(@Query('gameId') gameId: number): Promise<Result<Promotion[]>> {
         return this.service.getPromotion(gameId);
     }
 }

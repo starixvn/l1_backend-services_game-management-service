@@ -9,5 +9,5 @@ export type PromotionResponse = {
     errorCode: number;
     errorMessage: string;
     isSuccessful: boolean;
-    data: Promotion;
+    data: Array<Promotion>;
 };

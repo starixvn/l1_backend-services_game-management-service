@@ -13,9 +13,9 @@ export class PromotionService {
         private readonly logger: SentryLogger,
     ) {}
 
-    async getPromotion(gameId: number): Promise<Result<Promotion>> {
+    async getPromotion(gameId: number): Promise<Result<Promotion[]>> {
         try {
-            const data = (await this.model.findOne({ gameId, status: 'enabled' }).lean().exec()) as Promotion;
+            const data = (await this.model.find({ gameId, status: 'enabled' }).lean().exec()) as Promotion[];
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);

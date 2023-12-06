@@ -30,8 +30,8 @@ describe('Promotion', () => {
         const result = await request(app.getHttpServer()).get('/promotion?gameId=12').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as Result<Promotion>;
+        const model = JSON.parse(result.text) as Result<Promotion[]>;
         expect(result.status).toBe(200);
-        expect(model.data.odds).toEqual({ big: 2, small: 2 });
+        expect(model.data[0].odds).toEqual({ big: 2, small: 2 });
     });
 });
