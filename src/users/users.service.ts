@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UpdateStakeLevelRequest } from './models/update-stake-level-request';
-
 import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 import { SentryLogger } from '../common/providers';
-import { UpdateBalanceRequest } from './models/update-balance-request';
 import { UserInfos, UserInfosDocument } from './schemas';
+import { UpdateBalanceRequest, UpdateStakeLevelRequest } from './models';
 
 Injectable();
 export class UsersService {
@@ -114,8 +112,19 @@ export class UsersService {
                     { $inc: { red: -request.deductionAmount } },
                     { new: true, lean: true },
                 )
-                .lean();
+                .lean()
+                .exec();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
+
+    async setBalance(id: string, amount: number): Promise<Result<unknown>> {
+        try {
+            await this.userInfoModel.updateOne({ id: id }, { red: amount }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);

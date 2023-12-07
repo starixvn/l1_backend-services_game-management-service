@@ -4,12 +4,13 @@ import { NumericalResult, Result } from '../common/models/result';
 import {
     BotsResponse,
     ResetBotInRoomRequest,
+    SetBalanceRequest,
+    UpdateBalanceRequest,
     UpdateBotsJoinRoomRequest,
     UpdateBotsOutRoomRequest,
     UpdateStakeLevelRequest,
     UserInfoResponse,
 } from './models';
-import { UpdateBalanceRequest } from './models/update-balance-request';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
@@ -82,8 +83,15 @@ export class UsersController {
 
     @Post('update-balance')
     @ApiOperation({ operationId: 'updateBalance' })
-    @ApiOkResponse({ type: Result })
+    @ApiOkResponse({ type: UserInfoResponse })
     async updateBalance(@Body() body: UpdateBalanceRequest) {
         return this.usersService.updateBalance(body);
+    }
+
+    @Post('set-balance')
+    @ApiOperation({ operationId: 'setBalance' })
+    @ApiOkResponse({ type: Result })
+    async setBalance(@Body() body: SetBalanceRequest) {
+        return this.usersService.setBalance(body.id, body.amount);
     }
 }

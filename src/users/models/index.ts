@@ -4,3 +4,5 @@ export * from './reset-bot-in-room-request';
 export * from './update-bot-join-room-request';
 export * from './bots-response';
 export * from './user-info-response';
+export * from './set-balance-request';
+export * from './update-balance-request';
