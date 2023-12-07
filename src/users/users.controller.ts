@@ -4,6 +4,7 @@ import { NumericalResult, Result } from '../common/models/result';
 import {
     BotsResponse,
     ResetBotInRoomRequest,
+    SetBalanceAndDecreaseScoinsRequest,
     SetBalanceRequest,
     UpdateBalanceRequest,
     UpdateBotsJoinRoomRequest,
@@ -92,6 +93,13 @@ export class UsersController {
     @ApiOperation({ operationId: 'setBalance' })
     @ApiOkResponse({ type: Result })
     async setBalance(@Body() body: SetBalanceRequest) {
-        return this.usersService.setBalance(body.id, body.amount);
+        return this.usersService.setBalance(body.id, body.balance);
+    }
+
+    @Post('set-balance-and-decrease-scoins')
+    @ApiOperation({ operationId: 'setBalanceAndDecreaseScoins' })
+    @ApiOkResponse({ type: Result })
+    async setBalanceAndDecreaseScoins(@Body() body: SetBalanceAndDecreaseScoinsRequest) {
+        return this.usersService.setBalanceAndUpdateScoins(body.id, body.balance, body.deductionscoins);
     }
 }

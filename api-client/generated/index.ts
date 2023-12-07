@@ -43,6 +43,8 @@ export type { Promotion } from './models/Promotion';
 export type { PromotionResponse } from './models/PromotionResponse';
 export type { ResetBotInRoomRequest } from './models/ResetBotInRoomRequest';
 export type { Result } from './models/Result';
+export type { SetBalanceAndDecreaseScoinsRequest } from './models/SetBalanceAndDecreaseScoinsRequest';
+export type { SetBalanceRequest } from './models/SetBalanceRequest';
 export type { Settings } from './models/Settings';
 export type { UmMessageResponse } from './models/UmMessageResponse';
 export type { UpdateBalanceRequest } from './models/UpdateBalanceRequest';

@@ -6,6 +6,8 @@ import type { BotsResponse } from '../models/BotsResponse';
 import type { NumericalResult } from '../models/NumericalResult';
 import type { ResetBotInRoomRequest } from '../models/ResetBotInRoomRequest';
 import type { Result } from '../models/Result';
+import type { SetBalanceAndDecreaseScoinsRequest } from '../models/SetBalanceAndDecreaseScoinsRequest';
+import type { SetBalanceRequest } from '../models/SetBalanceRequest';
 import type { UpdateBalanceRequest } from '../models/UpdateBalanceRequest';
 import type { UpdateBotsJoinRoomRequest } from '../models/UpdateBotsJoinRoomRequest';
 import type { UpdateBotsOutRoomRequest } from '../models/UpdateBotsOutRoomRequest';
@@ -152,15 +154,47 @@ requestBody: UpdateStakeLevelRequest,
 
     /**
      * @param requestBody 
-     * @returns Result 
+     * @returns UserInfoResponse 
      * @throws ApiError
      */
     public updateBalance(
 requestBody: UpdateBalanceRequest,
-): CancelablePromise<Result> {
+): CancelablePromise<UserInfoResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/update-balance',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns Result 
+     * @throws ApiError
+     */
+    public setBalance(
+requestBody: SetBalanceRequest,
+): CancelablePromise<Result> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/set-balance',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns Result 
+     * @throws ApiError
+     */
+    public setBalanceAndDecreaseScoins(
+requestBody: SetBalanceAndDecreaseScoinsRequest,
+): CancelablePromise<Result> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/set-balance-and-decrease-scoins',
             body: requestBody,
             mediaType: 'application/json',
         });

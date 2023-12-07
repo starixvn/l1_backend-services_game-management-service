@@ -8,5 +8,5 @@ export class SetBalanceRequest {
 
     @IsNumber()
     @ApiProperty()
-    readonly amount: number;
+    readonly balance: number;
 }

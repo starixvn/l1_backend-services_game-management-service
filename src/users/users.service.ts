@@ -130,4 +130,15 @@ export class UsersService {
             return new Result(ErrorCodes.Failed, error.message);
         }
     }
+
+    async setBalanceAndUpdateScoins(id: string, balance: number, deductionScoins: number) {
+        try {
+            const scoinsDecrease = deductionScoins !== 0 ? { scoins: -deductionScoins } : {};
+            await this.userInfoModel.updateOne({ id: id }, { $set: { red: balance }, $inc: scoinsDecrease }).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
 }
