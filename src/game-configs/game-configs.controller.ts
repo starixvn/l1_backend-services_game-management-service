@@ -18,6 +18,13 @@ export class GameConfigsController {
         return this.service.getGameConfigs(gameName);
     }
 
+    @Get('byid')
+    @ApiOperation({ operationId: 'getGameConfigs' })
+    @ApiOkResponse({ type: GameConfigResponse })
+    async getGameConfigsById(@Query('gameId') gameId: number): Promise<Result<GameConfigs>> {
+        return this.service.getGameConfigsById(gameId);
+    }
+
     @Post('exchange-reload')
     @ApiOperation({ operationId: 'updateExchangeReload' })
     @ApiParam({ name: 'gameName', type: 'string' })

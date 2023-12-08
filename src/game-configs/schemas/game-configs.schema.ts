@@ -131,6 +131,11 @@ export class GameConfigs {
     @ApiProperty()
     @Prop()
     displayName: string;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop()
+    type: number;
 }
 
 export const GameConfigsSchema = SchemaFactory.createForClass(GameConfigs);
