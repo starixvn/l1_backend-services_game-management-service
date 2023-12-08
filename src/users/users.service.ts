@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
-import { SentryLogger } from '../common/providers';
+import { Result } from '../common/models/result';
+import { DataHandler } from '../common/providers';
 import { UserInfos, UserInfosDocument } from './schemas';
 import { UpdateBalanceRequest, UpdateStakeLevelRequest } from './models';
 
@@ -10,135 +10,82 @@ Injectable();
 export class UsersService {
     constructor(
         @InjectModel(UserInfos.name) private readonly userInfoModel: Model<UserInfosDocument>,
-        private readonly logger: SentryLogger,
+        @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
     async getTotalBots(): Promise<Result<number>> {
-        try {
-            const total = await this.userInfoModel.countDocuments({ type: true, banned: false }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, total);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { type: true, banned: false };
+        const execution = this.userInfoModel.countDocuments(filter).exec();
+        return this.dataHandler.getData(execution);
     }
 
     async getDisableBots(): Promise<Result<UserInfos[]>> {
-        try {
-            const disabledBots = await this.userInfoModel.find({ type: true, disabled: true }).lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, disabledBots);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { type: true, disabled: true };
+        const execution = this.userInfoModel.find(filter).lean().exec();
+        return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
     async getAllBots(): Promise<Result<UserInfos[]>> {
-        try {
-            const allBots = await this.userInfoModel.find({ type: true, disabled: false, inRoom: false }, 'id name').lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, allBots);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { type: true, disabled: false, inRoom: false };
+        const execution = this.userInfoModel.find(filter, 'id name').lean().exec();
+        return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
     async updateBotsOutRoom(botIds: string[]): Promise<Result<unknown>> {
-        try {
-            await this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: false, inGameRoom: '', patternId: 0 }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { id: { $in: botIds } };
+        const updates = { inRoom: false, inGameRoom: '', patternId: 0 };
+        return this.dataHandler.updateManyData(this.userInfoModel, filter, updates);
     }
 
     async updateBotsJoinRoom(botIds: string[], gameName: string): Promise<Result<unknown>> {
-        try {
-            await this.userInfoModel.updateMany({ id: { $in: botIds } }, { inRoom: true, inGameRoom: gameName }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { id: { $in: botIds } };
+        const updates = { inRoom: true, inGameRoom: gameName };
+        return this.dataHandler.updateManyData(this.userInfoModel, filter, updates);
     }
 
     async resetBotsInRoom(gameName: string): Promise<Result<unknown>> {
-        try {
-            await this.userInfoModel.updateMany({ type: true, inGameRoom: gameName }, { inRoom: false, inGameRoom: '' }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { type: true, inGameRoom: gameName };
+        const updates = { inRoom: false, inGameRoom: '' };
+        return this.dataHandler.updateManyData(this.userInfoModel, filter, updates);
     }
 
     async getUserInfo(id: string): Promise<Result<UserInfos>> {
-        try {
-            const info = await this.userInfoModel.findOne({ id: id }, { _id: 0, __v: 0 }).lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, info);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { id: id };
+        const execution = this.userInfoModel.findOne(filter, { _id: 0, __v: 0 }).lean().exec();
+        return this.dataHandler.getData<UserInfos>(execution);
     }
 
     async getScoins(id: string): Promise<Result<number>> {
-        try {
-            const userInfo = await this.userInfoModel.findOne({ id: id }, 'scoins').lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo.scoins ?? 0);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { id: id };
+        const execution = this.userInfoModel.findOne(filter, 'scoins').lean().exec();
+        const result = await this.dataHandler.getData(execution);
+        return new Result(result.errorCode, result.errorMessage, result.data?.scoins ?? 0);
     }
 
     async updateStakeLevel(request: UpdateStakeLevelRequest): Promise<Result<unknown>> {
-        try {
-            await this.userInfoModel
-                .updateOne({ id: request.id }, { minBet: request.minBet, maxBet: request.maxBet, betLimitModifiedDate: new Date() })
-                .exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
-    }
-    async updateBalance(request: UpdateBalanceRequest): Promise<Result<UserInfos>> {
-        try {
-            const userInfo = await this.userInfoModel
-                .findOneAndUpdate(
-                    { id: request.id, red: { $gt: request.deductionAmount } },
-                    { $inc: { red: -request.deductionAmount } },
-                    { new: true, lean: true },
-                )
-                .lean()
-                .exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, userInfo);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const filter = { id: request.id };
+        const updates = { minBet: request.minBet, maxBet: request.maxBet, betLimitModifiedDate: new Date() };
+        return this.dataHandler.updateData(this.userInfoModel, filter, updates);
     }
 
-    async setBalance(id: string, amount: number): Promise<Result<unknown>> {
-        try {
-            await this.userInfoModel.updateOne({ id: id }, { red: amount }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+    async updateBalance(request: UpdateBalanceRequest): Promise<Result<UserInfos>> {
+        const filter = { id: request.id, red: { $gt: request.deductionAmount } };
+        const updates = { $inc: { red: -request.deductionAmount } };
+        const options = { new: true, lean: true };
+        return this.dataHandler.getDataAndUpdate(this.userInfoModel, filter, updates, options);
+    }
+
+    async setBalance(id: string, amount: number): Promise<Result<UserInfos>> {
+        const filter = { id: id };
+        const updates = { red: amount };
+        const options = { new: true, lean: true };
+        return this.dataHandler.getDataAndUpdate(this.userInfoModel, filter, updates, options);
     }
 
     async setBalanceAndUpdateScoins(id: string, balance: number, deductionScoins: number) {
-        try {
-            const scoinsDecrease = deductionScoins !== 0 ? { scoins: -deductionScoins } : {};
-            await this.userInfoModel.updateOne({ id: id }, { $set: { red: balance }, $inc: scoinsDecrease }).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const scoinsDecrease = deductionScoins !== 0 ? { scoins: -deductionScoins } : {};
+        const filter = { id: id };
+        const updates = { $set: { red: balance }, $inc: scoinsDecrease };
+        return this.dataHandler.updateData(this.userInfoModel, filter, updates);
     }
 }

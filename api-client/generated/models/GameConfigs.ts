@@ -29,4 +29,5 @@ export type GameConfigs = {
     slotRNGConfig: Record<string, any>;
     gameId: number;
     displayName: string;
+    type: number;
 };

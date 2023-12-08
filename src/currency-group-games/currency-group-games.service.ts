@@ -1,25 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { CurrencyGroupGames, CurrencyGroupGamesDocument } from './schemas';
-import { SentryLogger } from '../common/providers';
-import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
+import { DataHandler } from '../common/providers';
+import { Result } from '../common/models/result';
 
 @Injectable()
 export class CurrencyGroupGamesService {
     constructor(
         @InjectModel(CurrencyGroupGames.name) private readonly CurrencyGroupGamesModel: Model<CurrencyGroupGamesDocument>,
-        private readonly logger: SentryLogger,
+        @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
     async getCurrencyGroupGamesByGameId(gameId: number): Promise<Result<CurrencyGroupGames[]>> {
-        try {
-            const currencyGroupGames = await this.CurrencyGroupGamesModel.find({ gameId, enabled: true }, { _id: 0 }).lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, currencyGroupGames);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const execution = this.CurrencyGroupGamesModel.find({ gameId, enabled: true }, { _id: 0 }).lean().exec();
+        return this.dataHandler.getData<CurrencyGroupGames[]>(execution);
     }
 }

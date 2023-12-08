@@ -91,7 +91,7 @@ export class UsersController {
 
     @Post('set-balance')
     @ApiOperation({ operationId: 'setBalance' })
-    @ApiOkResponse({ type: Result })
+    @ApiOkResponse({ type: UserInfoResponse })
     async setBalance(@Body() body: SetBalanceRequest) {
         return this.usersService.setBalance(body.id, body.balance);
     }

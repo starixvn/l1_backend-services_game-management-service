@@ -30,6 +30,23 @@ gameName: string,
     }
 
     /**
+     * @param gameId 
+     * @returns GameConfigResponse 
+     * @throws ApiError
+     */
+    public getGameConfigs1(
+gameId: number,
+): CancelablePromise<GameConfigResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/game-configs/byid',
+            query: {
+                'gameId': gameId,
+            },
+        });
+    }
+
+    /**
      * @param exchangeReload 
      * @param gameName 
      * @returns Result 

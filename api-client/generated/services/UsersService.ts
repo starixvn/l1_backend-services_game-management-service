@@ -170,12 +170,12 @@ requestBody: UpdateBalanceRequest,
 
     /**
      * @param requestBody 
-     * @returns Result 
+     * @returns UserInfoResponse 
      * @throws ApiError
      */
     public setBalance(
 requestBody: SetBalanceRequest,
-): CancelablePromise<Result> {
+): CancelablePromise<UserInfoResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/set-balance',
