@@ -30,6 +30,7 @@ export class SentryLogger implements LoggerService {
             maxValueLength: 5000,
             release: this.config.release ? `game-management-service@${this.config.release}` : '',
         });
+        Sentry.setTag('backend_service', 'game-management-service');
 
         Sentry.captureMessage(`Logger started at ${new Date()}`);
     }
