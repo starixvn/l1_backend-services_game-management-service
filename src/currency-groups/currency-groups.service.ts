@@ -14,7 +14,7 @@ export class CurrencyGroupsService {
     ) {}
 
     async getCurrencyGroups(): Promise<Result<CurrencyGroups[]>> {
-        const execution = this.CurrencyGroupsModel.find({ enabled: true }, { _id: 0 }).lean().exec();
+        const execution = this.CurrencyGroupsModel.find({ enabled: true }).lean().exec();
         return this.dataHandler.getData<CurrencyGroups[]>(execution);
     }
 }
