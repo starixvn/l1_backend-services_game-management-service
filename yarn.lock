@@ -5967,10 +5967,10 @@ saslprep@^1.0.0:
   dependencies:
     sparse-bitfield "^3.0.3"
 
-sc-instrument@^1.1.0:
-  version "1.1.0"
-  resolved "http://npm.lumigame.com/sc-instrument/-/sc-instrument-1.1.0.tgz#e87d5303c31c34c67b394791b94bce0d7ebbf295"
-  integrity sha512-JBQSOi/owVc9aEgYSqy/eTQBZiWTxVb51WCMlGyyEf1++1Hevjgi8mcKXzsW9gVfS+6oNs0DTLQZrppVlGezlw==
+sc-instrument@1.1.1-beta.0:
+  version "1.1.1-beta.0"
+  resolved "http://npm.lumigame.com/sc-instrument/-/sc-instrument-1.1.1-beta.0.tgz#043d140e7059179c550ed78a5f52ed3857e543c0"
+  integrity sha512-xy2Z6jMxvVRVtoI5u29VXp1IMYoL5DTaIbwyzSQopig+mmOTJQrtuke91j5MANRWLHiT0XZJ5uVIG+2yoKhAFg==
   dependencies:
     "@opentelemetry/context-async-hooks" "1.15.2"
     "@opentelemetry/core" "1.15.2"
