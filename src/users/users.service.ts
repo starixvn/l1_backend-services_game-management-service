@@ -27,7 +27,7 @@ export class UsersService {
 
     async getAllBots(): Promise<Result<UserInfos[]>> {
         const filter = { type: true, disabled: false, inRoom: false };
-        const execution = this.userInfoModel.find(filter, 'id name').lean().exec();
+        const execution = this.userInfoModel.find(filter, 'id name avatarId red type').lean().exec();
         return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
