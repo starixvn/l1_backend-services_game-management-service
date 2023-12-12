@@ -35,7 +35,7 @@ describe('ExchangeRates', () => {
         expect(result.status).toBe(200);
         expect(model.data.code).toEqual({
             AUD: 0.7,
-            CAD: 0.78,
+            CAD: 0.1282311001,
         });
     });
 });

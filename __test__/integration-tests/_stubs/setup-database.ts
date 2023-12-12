@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model, Types, Decimal128 } from 'mongoose';
 import { GameConfigsDocument, GameConfigs } from '../../../src/game-configs/schemas';
 import { ArchiveStatuses, ArchiveStatusesDocument } from '../../../src/archive-statuses/schemas';
 import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
@@ -130,7 +130,7 @@ const initExchangeRates = async (moduleFixture: TestingModule) => {
     item.source = 'OW';
     item.code = {
         AUD: 0.7,
-        CAD: 0.78,
+        CAD: 0.1282311001,
     };
 
     await model.insertMany([item]);

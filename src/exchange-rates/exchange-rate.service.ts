@@ -19,6 +19,11 @@ export class ExchangeRateService {
                 .findOne({}, 'exId code', { sort: { exId: -1 } })
                 .lean()
                 .exec()) as ExchangeRates;
+
+            Object.keys(data.code).forEach((key) => {
+                data.code[key] = +data.code[key].toString();
+            });
+
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
         } catch (error) {
             this.logger.error(error);
