@@ -14,6 +14,7 @@ export default () => ({
         clientId: 'game-server',
         clientSecret: 'gameserver@20luminet&',
         audiences: ['api', 'admin-api', 'game-services'],
+        validIssuers: process.env.VALID_ISSUERS.split(','),
     },
     sentry: {
         dsn: process.env.SENTRY_DSN,

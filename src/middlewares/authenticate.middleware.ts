@@ -1,8 +1,8 @@
-import { Injectable, Inject, NestMiddleware } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import * as jwksClient from 'jwks-rsa';
-import { Request, Response, NextFunction } from 'express';
+import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
+import { NextFunction, Request, Response } from 'express';
+import * as jwksClient from 'jwks-rsa';
 import { SentryLogger } from '../common/providers';
 
 @Injectable()
@@ -51,10 +51,11 @@ export class AuthenticateMiddleware implements NestMiddleware {
     }
 
     async verifyToken(token: string, publicKey: string): Promise<any> {
-        const verifyOptions = {
+        const verifyOptions: JwtVerifyOptions = {
             ignoreNotBefore: true,
             audience: this.config.get('auth.audiences'),
             publicKey,
+            issuer: this.config.get('auth.validIssuers'),
         };
 
         return this.jwtService.verifyAsync(token, verifyOptions);
