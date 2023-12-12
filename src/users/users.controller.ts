@@ -98,7 +98,7 @@ export class UsersController {
 
     @Post('set-balance-and-decrease-scoins')
     @ApiOperation({ operationId: 'setBalanceAndDecreaseScoins' })
-    @ApiOkResponse({ type: Result })
+    @ApiOkResponse({ type: UserInfoResponse })
     async setBalanceAndDecreaseScoins(@Body() body: SetBalanceAndDecreaseScoinsRequest) {
         return this.usersService.setBalanceAndUpdateScoins(body.id, body.balance, body.deductionscoins);
     }

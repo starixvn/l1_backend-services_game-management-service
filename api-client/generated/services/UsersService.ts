@@ -186,12 +186,12 @@ requestBody: SetBalanceRequest,
 
     /**
      * @param requestBody 
-     * @returns Result 
+     * @returns UserInfoResponse 
      * @throws ApiError
      */
     public setBalanceAndDecreaseScoins(
 requestBody: SetBalanceAndDecreaseScoinsRequest,
-): CancelablePromise<Result> {
+): CancelablePromise<UserInfoResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/set-balance-and-decrease-scoins',

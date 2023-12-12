@@ -86,6 +86,7 @@ export class UsersService {
         const scoinsDecrease = deductionScoins !== 0 ? { scoins: -deductionScoins } : {};
         const filter = { id: id };
         const updates = { $set: { red: balance }, $inc: scoinsDecrease };
-        return this.dataHandler.updateData(this.userInfoModel, filter, updates);
+        const options = { new: true, lean: true };
+        return this.dataHandler.getDataAndUpdate<UserInfos>(this.userInfoModel, filter, updates, options);
     }
 }
