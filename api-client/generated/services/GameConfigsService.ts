@@ -34,7 +34,7 @@ gameName: string,
      * @returns GameConfigResponse 
      * @throws ApiError
      */
-    public getGameConfigs1(
+    public getGameConfigsById(
 gameId: number,
 ): CancelablePromise<GameConfigResponse> {
         return this.httpRequest.request({
