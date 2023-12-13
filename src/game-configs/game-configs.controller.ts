@@ -19,7 +19,7 @@ export class GameConfigsController {
     }
 
     @Get('byid')
-    @ApiOperation({ operationId: 'getGameConfigs' })
+    @ApiOperation({ operationId: 'getGameConfigsById' })
     @ApiOkResponse({ type: GameConfigResponse })
     async getGameConfigsById(@Query('gameId') gameId: number): Promise<Result<GameConfigs>> {
         return this.service.getGameConfigsById(gameId);
