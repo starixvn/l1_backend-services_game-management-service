@@ -45,6 +45,8 @@ export type { ResetBotInRoomRequest } from './models/ResetBotInRoomRequest';
 export type { Result } from './models/Result';
 export type { SetBalanceAndDecreaseScoinsRequest } from './models/SetBalanceAndDecreaseScoinsRequest';
 export type { SetBalanceRequest } from './models/SetBalanceRequest';
+export type { SettingForNewRound } from './models/SettingForNewRound';
+export type { SettingForNewRoundResponse } from './models/SettingForNewRoundResponse';
 export type { Settings } from './models/Settings';
 export type { UmMessageResponse } from './models/UmMessageResponse';
 export type { UpdateBalanceRequest } from './models/UpdateBalanceRequest';
@@ -55,6 +57,7 @@ export type { UpdateStakeLevelRequest } from './models/UpdateStakeLevelRequest';
 export type { UserInfoResponse } from './models/UserInfoResponse';
 export type { UserInfos } from './models/UserInfos';
 
+export { AggregationService } from './services/AggregationService';
 export { ArchiveStatusService } from './services/ArchiveStatusService';
 export { CurrenciesService } from './services/CurrenciesService';
 export { CurrencyGroupGamesService } from './services/CurrencyGroupGamesService';

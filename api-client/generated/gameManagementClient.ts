@@ -6,6 +6,7 @@ import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 
+import { AggregationService } from './services/AggregationService';
 import { ArchiveStatusService } from './services/ArchiveStatusService';
 import { CurrenciesService } from './services/CurrenciesService';
 import { CurrencyGroupGamesService } from './services/CurrencyGroupGamesService';
@@ -25,6 +26,7 @@ type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
 export class gameManagementClient {
 
+    public readonly aggregation: AggregationService;
     public readonly archiveStatus: ArchiveStatusService;
     public readonly currencies: CurrenciesService;
     public readonly currencyGroupGames: CurrencyGroupGamesService;
@@ -55,6 +57,7 @@ export class gameManagementClient {
             ENCODE_PATH: config?.ENCODE_PATH,
         });
 
+        this.aggregation = new AggregationService(this.request);
         this.archiveStatus = new ArchiveStatusService(this.request);
         this.currencies = new CurrenciesService(this.request);
         this.currencyGroupGames = new CurrencyGroupGamesService(this.request);
