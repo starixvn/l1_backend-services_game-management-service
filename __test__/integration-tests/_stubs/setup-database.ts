@@ -8,6 +8,9 @@ import { OperatorConfig, OperatorConfigDocument } from '../../../src/operator-co
 import { Domains, DomainsDocument } from '../../../src/domains/schemas';
 import { Notification, NotificationDocument } from '../../../src/notifications/schemas';
 import { ExchangeRates, ExchangeRatesDocument } from '../../../src/exchange-rates/schemas';
+import { CurrencyGroupGames, CurrencyGroupGamesDocument } from '../../../src/currency-group-games/schemas';
+import { CurrencyGroups, CurrencyGroupsDocument } from '../../../src/currency-groups/schemas';
+import { Currencies, CurrenciesDocument } from '../../../src/currencies/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
@@ -17,6 +20,61 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initDomain(moduleFixture);
     await initNotification(moduleFixture);
     await initExchangeRates(moduleFixture);
+    await initCurrencyGroupGames(moduleFixture);
+    await initCurrencyGroup(moduleFixture);
+    await initCurrencies(moduleFixture);
+};
+
+const initCurrencyGroupGames = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('CurrencyGroupGames')) as Model<CurrencyGroupGamesDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new CurrencyGroupGames();
+    item.gameId = 12;
+    item.gameName = 'baccarat';
+    item.groupId = 'abc';
+    item.enabled = true;
+    item.minBet = 1;
+    item.maxBet = 10;
+
+    await model.insertMany([item]);
+};
+
+const initCurrencyGroup = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('CurrencyGroups')) as Model<CurrencyGroupsDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new CurrencyGroups();
+    item.name = 'US';
+    item.enabled = true;
+    item.partnerId = 'p1';
+
+    await model.insertMany([item]);
+};
+
+const initCurrencies = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('Currencies')) as Model<CurrenciesDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new Currencies();
+    item.name = 'US';
+    item.code = 'US';
+    item.enabled = true;
+    item.multiplier = 10;
+    item.isTest = false;
+    item.partnerId = 'p1';
+    item.groupId = 'g1';
+
+    await model.insertMany([item]);
 };
 
 const initGameConfigs = async (moduleFixture: TestingModule) => {
