@@ -22,7 +22,7 @@
         "integration-test-dev": "jest ./__test__/integration-tests --config ./jest-config.dev.json --maxWorkers=1 --forceExit",
         "reg": "npm set registry http://npm.lumigame.com",
         "pregen:client": "rimraf ./api-client/generated",
-        "gen:client": "yarn openapi --input ./api-client/api-spec.json --output ./api-client/generated --client axios --name gameManagementClient"
+        "gen:client": "yarn openapi --input ./api-client/api-spec.json --output ./api-client/generated --client axios --name gameManagementClient && cp ./api-client/custom/CustomAxiosRequest.ts ./api-client/generated/"
     },
     "dependencies": {
         "@fastify/helmet": "^11.1.1",

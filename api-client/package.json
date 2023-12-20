@@ -1,6 +1,6 @@
 {
     "name": "sc-game-management-client",
-    "version": "0.0.2-beta.16",
+    "version": "0.0.2-beta.17",
     "description": "Game Management Api Client",
     "main": "./lib/index.js",
     "typings": "./lib/index.d.ts",
@@ -42,7 +42,8 @@
     },
     "license": "ISC",
     "dependencies": {
-        "axios": "1.6.2"
+        "axios": "1.6.2",
+        "axios-retry": "^4.0.0"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.12.11",
