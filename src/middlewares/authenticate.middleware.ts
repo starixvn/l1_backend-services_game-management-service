@@ -31,6 +31,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
                 this.sendError(res, this.UnauthorizedCode);
             }
         } catch (ex) {
+            this.logger.error(`AuthenticateMiddleware ${ex.message} ${this.getBearerToken(req)}`);
             this.logger.error(ex);
             this.sendError(res, this.UnauthorizedCode);
         }
