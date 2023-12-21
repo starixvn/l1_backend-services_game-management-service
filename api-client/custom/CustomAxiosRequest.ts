@@ -8,10 +8,13 @@ import http from "http";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 
+const defaultTimeout = 5000;
 export class CustomAxiosRequest extends BaseHttpRequest {
     axiosInstance = axios.create({
         httpsAgent: new https.Agent({ keepAlive: true }),
         httpAgent: new http.Agent({ keepAlive: true }),
+        timeout: defaultTimeout,
+        timeoutErrorMessage: "CustomAxiosRequest timeout",
     });
 
     constructor(config: OpenAPIConfig) {
