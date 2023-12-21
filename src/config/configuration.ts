@@ -19,7 +19,7 @@ export default () => ({
     sentry: {
         dsn: process.env.SENTRY_DSN,
         release: process.env.SENTRY_RELEASE,
-        env: 'LOCAL0',
+        env: process.env.ENV,
         logIdentifier: 'game-management-service',
     },
     systemName: process.env.SYSTEM_TYPE,
