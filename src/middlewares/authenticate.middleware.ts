@@ -16,6 +16,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
 
     async use(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log('auth-------');
             const token = this.getBearerToken(req);
             if (token == null) {
                 this.sendError(res, this.UnauthorizedCode);
@@ -73,7 +74,10 @@ export class AuthenticateMiddleware implements NestMiddleware {
 
         const key = await client.getSigningKey(decodedToken.header.kid);
 
-        return key.getPublicKey();
+        const publicKey = key.getPublicKey();
+        console.log('publicKey', publicKey);
+
+        return publicKey;
     }
 
     sendError(res: Response, code: number): void {
