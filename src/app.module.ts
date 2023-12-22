@@ -57,6 +57,6 @@ import { AggregationModule } from './aggregation/aggregation.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(AuthenticateMiddleware).exclude('/', 'api(.*)').forRoutes('*');
+        //consumer.apply(AuthenticateMiddleware).exclude('/', 'api(.*)').forRoutes('*');
     }
 }
