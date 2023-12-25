@@ -66,18 +66,17 @@ export class AuthenticateMiddleware implements NestMiddleware {
     }
 
     async getPublicKey(token: string): Promise<string> {
-        const authUrl = this.config.get('auth.uri');
-        const jwks = '.well-known/openid-configuration/jwks';
-        const jwksUri = new URL(jwks, authUrl).href;
-        const client = jwksClient({ jwksUri });
-        const decodedToken = this.jwtService.decode(token, { complete: true }) as any;
+        const pKey = `-----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtLXXilbe/4Vybt89ufTJ
+        I6isY4unm4xO6ickNa/p6ftC9Zh1kx0C8dVk+sYnn/5NlUSJj5tGFhjHBHfSRrbL
+        TNULvJiPrIQ3UjauXgt9sDBKCiZq26BFijBtkeOBAS4Og7SCFkAKkkSR2anFMfsV
+        q5xZZYcsjVWA/OzCkXTkHZygUi6nR8Hy8sZE9S5QHvFCG6oCjxiX4Nx2vLFw12W7
+        37PREO8I7XY9Rcucoa5YcRsY4irT/5I8vcN/WCzd6vVeVndDOB96nmZ0IKAL5plS
+        kf43km6DZcn0mequcGgsRhIAs+ilCoc4sACLe2CvYBHmrJAiC252ieMv+LsGi+Bb
+        GwIDAQAB
+        -----END PUBLIC KEY-----`;
 
-        const key = await client.getSigningKey(decodedToken.header.kid);
-
-        const publicKey = key.getPublicKey();
-        console.log('publicKey', publicKey);
-
-        return publicKey;
+        return pKey;
     }
 
     sendError(res: Response, code: number): void {
