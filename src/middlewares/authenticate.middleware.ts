@@ -2,7 +2,6 @@ import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import { NextFunction, Request, Response } from 'express';
-import * as jwksClient from 'jwks-rsa';
 import { SentryLogger } from '../common/providers';
 
 @Injectable()
@@ -16,7 +15,6 @@ export class AuthenticateMiddleware implements NestMiddleware {
 
     async use(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('auth-------');
             const token = this.getBearerToken(req);
             if (token == null) {
                 this.sendError(res, this.UnauthorizedCode);
@@ -66,17 +64,17 @@ export class AuthenticateMiddleware implements NestMiddleware {
     }
 
     async getPublicKey(token: string): Promise<string> {
-        const pKey = `-----BEGIN PUBLIC KEY-----
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtLXXilbe/4Vybt89ufTJ
-        I6isY4unm4xO6ickNa/p6ftC9Zh1kx0C8dVk+sYnn/5NlUSJj5tGFhjHBHfSRrbL
-        TNULvJiPrIQ3UjauXgt9sDBKCiZq26BFijBtkeOBAS4Og7SCFkAKkkSR2anFMfsV
-        q5xZZYcsjVWA/OzCkXTkHZygUi6nR8Hy8sZE9S5QHvFCG6oCjxiX4Nx2vLFw12W7
-        37PREO8I7XY9Rcucoa5YcRsY4irT/5I8vcN/WCzd6vVeVndDOB96nmZ0IKAL5plS
-        kf43km6DZcn0mequcGgsRhIAs+ilCoc4sACLe2CvYBHmrJAiC252ieMv+LsGi+Bb
-        GwIDAQAB
-        -----END PUBLIC KEY-----`;
+        const publicKey = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtLXXilbe/4Vybt89ufTJ
+I6isY4unm4xO6ickNa/p6ftC9Zh1kx0C8dVk+sYnn/5NlUSJj5tGFhjHBHfSRrbL
+TNULvJiPrIQ3UjauXgt9sDBKCiZq26BFijBtkeOBAS4Og7SCFkAKkkSR2anFMfsV
+q5xZZYcsjVWA/OzCkXTkHZygUi6nR8Hy8sZE9S5QHvFCG6oCjxiX4Nx2vLFw12W7
+37PREO8I7XY9Rcucoa5YcRsY4irT/5I8vcN/WCzd6vVeVndDOB96nmZ0IKAL5plS
+kf43km6DZcn0mequcGgsRhIAs+ilCoc4sACLe2CvYBHmrJAiC252ieMv+LsGi+Bb
+GwIDAQAB
+-----END PUBLIC KEY-----`;
 
-        return pKey;
+        return publicKey;
     }
 
     sendError(res: Response, code: number): void {
