@@ -22,13 +22,19 @@ export class UsersService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
+     * @param limit 
      * @returns BotsResponse 
      * @throws ApiError
      */
-    public getAllBots(): CancelablePromise<BotsResponse> {
+    public getAllBots(
+limit: number,
+): CancelablePromise<BotsResponse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/bots',
+            path: {
+                'limit': limit,
+            },
         });
     }
 
