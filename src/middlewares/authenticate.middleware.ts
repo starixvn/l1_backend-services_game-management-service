@@ -3,12 +3,17 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import { NextFunction, Request, Response } from 'express';
 import { SentryLogger } from '../common/providers';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import * as jwksClient from 'jwks-rsa';
 
 @Injectable()
 export class AuthenticateMiddleware implements NestMiddleware {
+    private readonly publicKey = 'publicKey';
     @Inject(ConfigService) private readonly config: ConfigService;
     @Inject(SentryLogger) private readonly logger: SentryLogger;
     @Inject(JwtService) private readonly jwtService: JwtService;
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache;
 
     private readonly tokenType = 'Bearer';
     private readonly UnauthorizedCode = 401;
@@ -64,17 +69,28 @@ export class AuthenticateMiddleware implements NestMiddleware {
     }
 
     async getPublicKey(token: string): Promise<string> {
-        const publicKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtLXXilbe/4Vybt89ufTJ
-I6isY4unm4xO6ickNa/p6ftC9Zh1kx0C8dVk+sYnn/5NlUSJj5tGFhjHBHfSRrbL
-TNULvJiPrIQ3UjauXgt9sDBKCiZq26BFijBtkeOBAS4Og7SCFkAKkkSR2anFMfsV
-q5xZZYcsjVWA/OzCkXTkHZygUi6nR8Hy8sZE9S5QHvFCG6oCjxiX4Nx2vLFw12W7
-37PREO8I7XY9Rcucoa5YcRsY4irT/5I8vcN/WCzd6vVeVndDOB96nmZ0IKAL5plS
-kf43km6DZcn0mequcGgsRhIAs+ilCoc4sACLe2CvYBHmrJAiC252ieMv+LsGi+Bb
-GwIDAQAB
------END PUBLIC KEY-----`;
+        const cachedPublicKey = await this.cacheManager.get(this.publicKey);
+        if (cachedPublicKey) {
+            console.log('cache hit');
+            return cachedPublicKey as string;
+        } else {
+            console.log('cache miss-----');
+            const publicKey = await this.getPublicKeyFromRemote(token);
+            await this.cacheManager.set(this.publicKey, publicKey);
+            return publicKey;
+        }
+    }
 
-        return publicKey;
+    async getPublicKeyFromRemote(token: string): Promise<string> {
+        const authUrl = this.config.get('auth.uri');
+        const jwks = '.well-known/openid-configuration/jwks';
+        const jwksUri = new URL(jwks, authUrl).href;
+        const client = jwksClient({ jwksUri });
+        const decodedToken = this.jwtService.decode(token, { complete: true }) as any;
+
+        const key = await client.getSigningKey(decodedToken.header.kid);
+
+        return key.getPublicKey();
     }
 
     sendError(res: Response, code: number): void {

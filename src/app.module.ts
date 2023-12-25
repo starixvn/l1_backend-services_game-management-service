@@ -21,6 +21,7 @@ import { JackpotsModule } from './jackpots/jackpots.module';
 import { ExchangeRateModule } from './exchange-rates/exchange-rate.module';
 import { IdCountersModule } from './id-counters/id-counters.module';
 import { AggregationModule } from './aggregation/aggregation.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
     imports: [
@@ -51,6 +52,7 @@ import { AggregationModule } from './aggregation/aggregation.module';
         ExchangeRateModule,
         IdCountersModule,
         AggregationModule,
+        CacheModule.register(),
     ],
     controllers: [AppController],
     providers: [AppService],
