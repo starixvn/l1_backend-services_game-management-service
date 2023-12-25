@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { NumericalResult, Result } from '../common/models/result';
 import {
     BotsResponse,
@@ -22,6 +22,7 @@ export class UsersController {
     @Get('bots')
     @ApiOperation({ operationId: 'getAllBots' })
     @ApiOkResponse({ type: BotsResponse })
+    @ApiParam({ name: 'limit', type: 'number' })
     async getAllBots(@Query('limit') limit: number) {
         return this.usersService.getAllBots(limit);
     }

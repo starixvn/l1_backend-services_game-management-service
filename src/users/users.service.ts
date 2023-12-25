@@ -27,7 +27,11 @@ export class UsersService {
 
     async getAllBots(limit: number = 20): Promise<Result<UserInfos[]>> {
         const filter = { type: true, disabled: false, inRoom: false };
-        const execution = this.userInfoModel.find(filter, 'id name avatarId red type', { limit }).lean().exec();
+
+        const execution = this.userInfoModel
+            .aggregate([{ $match: filter }, { $sample: { size: limit } }, { $project: { id: 1, name: 1, avatarId: 1, red: 1, type: 1 } }])
+            .exec();
+
         return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
