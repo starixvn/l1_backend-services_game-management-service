@@ -19,7 +19,7 @@ async function bootstrap() {
         initializer.start();
     }
 
-    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ caseSensitive: false }));
 
     app.useLogger(app.get(SentryLogger));
     app.register(helmet, { contentSecurityPolicy: false, frameguard: false });
