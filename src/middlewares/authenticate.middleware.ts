@@ -71,10 +71,8 @@ export class AuthenticateMiddleware implements NestMiddleware {
     async getPublicKey(token: string): Promise<string> {
         const cachedPublicKey = await this.cacheManager.get(this.publicKey);
         if (cachedPublicKey) {
-            console.log('cache hit');
             return cachedPublicKey as string;
         } else {
-            console.log('cache miss-----');
             const publicKey = await this.getPublicKeyFromRemote(token);
             await this.cacheManager.set(this.publicKey, publicKey, 0);
             return publicKey;
