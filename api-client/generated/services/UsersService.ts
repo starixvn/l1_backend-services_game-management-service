@@ -32,7 +32,7 @@ limit: number,
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/bots',
-            path: {
+            query: {
                 'limit': limit,
             },
         });

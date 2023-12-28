@@ -22,7 +22,6 @@ export class UsersController {
     @Get('bots')
     @ApiOperation({ operationId: 'getAllBots' })
     @ApiOkResponse({ type: BotsResponse })
-    @ApiParam({ name: 'limit', type: 'number' })
     async getAllBots(@Query('limit', ParseIntPipe) limit: number) {
         return this.usersService.getAllBots(limit);
     }
