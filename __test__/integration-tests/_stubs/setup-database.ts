@@ -11,6 +11,7 @@ import { ExchangeRates, ExchangeRatesDocument } from '../../../src/exchange-rate
 import { CurrencyGroupGames, CurrencyGroupGamesDocument } from '../../../src/currency-group-games/schemas';
 import { CurrencyGroups, CurrencyGroupsDocument } from '../../../src/currency-groups/schemas';
 import { Currencies, CurrenciesDocument } from '../../../src/currencies/schemas';
+import { UserInfos, UserInfosDocument } from '../../../src/users/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfigs(moduleFixture);
@@ -23,6 +24,29 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initCurrencyGroupGames(moduleFixture);
     await initCurrencyGroup(moduleFixture);
     await initCurrencies(moduleFixture);
+    await initUserInfos(moduleFixture);
+};
+
+const initUserInfos = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('UserInfos')) as Model<UserInfosDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item1 = new UserInfos();
+    item1.id = '1';
+    item1.UID = 1;
+    item1.name = 'user 1';
+    item1.red = 100;
+
+    const item2 = new UserInfos();
+    item2.id = '2';
+    item2.UID = 2;
+    item2.name = 'user 2';
+    item2.red = 5;
+
+    await model.insertMany([item1, item2]);
 };
 
 const initCurrencyGroupGames = async (moduleFixture: TestingModule) => {

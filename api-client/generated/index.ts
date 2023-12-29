@@ -50,6 +50,8 @@ export type { SettingForNewRoundResponse } from './models/SettingForNewRoundResp
 export type { Settings } from './models/Settings';
 export type { UmMessageResponse } from './models/UmMessageResponse';
 export type { UpdateBalanceRequest } from './models/UpdateBalanceRequest';
+export type { UpdateBotsBalanceRequest } from './models/UpdateBotsBalanceRequest';
+export type { UpdateBotsBalanceResponse } from './models/UpdateBotsBalanceResponse';
 export type { UpdateBotsJoinRoomRequest } from './models/UpdateBotsJoinRoomRequest';
 export type { UpdateBotsOutRoomRequest } from './models/UpdateBotsOutRoomRequest';
 export type { UpdateLatestIdCounterRequest } from './models/UpdateLatestIdCounterRequest';

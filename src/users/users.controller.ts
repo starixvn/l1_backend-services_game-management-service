@@ -11,6 +11,8 @@ import {
     UpdateBotsOutRoomRequest,
     UpdateStakeLevelRequest,
     UserInfoResponse,
+    UpdateBotsBalanceRequest,
+    UpdateBotsBalanceResponse,
 } from './models';
 import { UsersService } from './users.service';
 
@@ -87,6 +89,13 @@ export class UsersController {
     @ApiOkResponse({ type: UserInfoResponse })
     async updateBalance(@Body() body: UpdateBalanceRequest) {
         return this.usersService.updateBalance(body);
+    }
+
+    @Post('update-bots-balance')
+    @ApiOperation({ operationId: 'updateBotsBalance' })
+    @ApiOkResponse({ type: UpdateBotsBalanceResponse })
+    async updateBotsBalance(@Body() body: UpdateBotsBalanceRequest) {
+        return this.usersService.updateBotsBalance(body);
     }
 
     @Post('set-balance')

@@ -9,6 +9,8 @@ import type { Result } from '../models/Result';
 import type { SetBalanceAndDecreaseScoinsRequest } from '../models/SetBalanceAndDecreaseScoinsRequest';
 import type { SetBalanceRequest } from '../models/SetBalanceRequest';
 import type { UpdateBalanceRequest } from '../models/UpdateBalanceRequest';
+import type { UpdateBotsBalanceRequest } from '../models/UpdateBotsBalanceRequest';
+import type { UpdateBotsBalanceResponse } from '../models/UpdateBotsBalanceResponse';
 import type { UpdateBotsJoinRoomRequest } from '../models/UpdateBotsJoinRoomRequest';
 import type { UpdateBotsOutRoomRequest } from '../models/UpdateBotsOutRoomRequest';
 import type { UpdateStakeLevelRequest } from '../models/UpdateStakeLevelRequest';
@@ -169,6 +171,22 @@ requestBody: UpdateBalanceRequest,
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/update-balance',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns UpdateBotsBalanceResponse 
+     * @throws ApiError
+     */
+    public updateBotsBalance(
+requestBody: UpdateBotsBalanceRequest,
+): CancelablePromise<UpdateBotsBalanceResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/update-bots-balance',
             body: requestBody,
             mediaType: 'application/json',
         });

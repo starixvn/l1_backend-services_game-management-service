@@ -7,3 +7,5 @@ export * from './user-info-response';
 export * from './set-balance-and-decrease-scoins-request';
 export * from './set-balance-request';
 export * from './update-balance-request';
+export * from './update-bot-balance-request';
+export * from './update-bot-balance-response';
