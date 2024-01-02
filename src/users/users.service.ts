@@ -80,7 +80,7 @@ export class UsersService {
     }
 
     async updateBotsBalance(request: UpdateBotsBalanceRequest): Promise<Result<UserInfos[]>> {
-        const userInfosResults = await Promise.all(request.bots.map(async (bot) => await this.updateBalance(bot)));
+        const userInfosResults = await Promise.all(request.bots.map(async (bot) => this.updateBalance(bot)));
         return new Result(
             ErrorCodes.Success,
             ErrorMessages.Empty,

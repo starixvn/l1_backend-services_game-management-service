@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { SettingForNewRound } from './models/settings-for-new-round';
 import { SentryLogger } from '../common/providers';
 import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';

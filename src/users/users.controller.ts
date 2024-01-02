@@ -1,5 +1,5 @@
 import { Body, Controller, Get, ParseIntPipe, Post, Query } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { NumericalResult, Result } from '../common/models/result';
 import {
     BotsResponse,
