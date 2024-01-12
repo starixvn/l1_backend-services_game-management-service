@@ -3,6 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Result } from 'src/common/models/result';
 import { GameNotificationService } from './game-notification.service';
 import { CreateGameNotificationRequest } from './models/create-game-notification-request';
+import { RemoveGameNotificationRequest } from './models/remove-game-notification-request';
 import { GameNotification } from './schemas';
 
 @ApiTags('game-notifications')
@@ -13,7 +14,14 @@ export class GameNotificationController {
     @Post('create')
     @ApiOperation({ operationId: 'create' })
     @ApiOkResponse({ type: Result<GameNotification> })
-    async createPool(@Body() body: CreateGameNotificationRequest) {
+    async create(@Body() body: CreateGameNotificationRequest) {
         return this.service.create(body.userId, body.gameId, body.gameInfo);
+    }
+
+    @Post('remove')
+    @ApiOperation({ operationId: 'remove' })
+    @ApiOkResponse({ type: Result<GameNotification> })
+    async remove(@Body() body: RemoveGameNotificationRequest) {
+        return this.service.remove(body.userId, body.gameId);
     }
 }

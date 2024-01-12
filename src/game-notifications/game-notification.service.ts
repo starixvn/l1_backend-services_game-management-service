@@ -15,4 +15,8 @@ export class GameNotificationService {
     async create(userId: string, gameId: number, gameInfo: object): Promise<Result<GameNotification>> {
         return this.dataHandler.createData<GameNotification>(this.model, { uid: userId, gameId, gameInfo });
     }
+
+    async remove(userId: string, gameId: number): Promise<Result<GameNotification>> {
+        return this.dataHandler.delete<GameNotification>(this.model, { uid: userId, gameId });
+    }
 }
