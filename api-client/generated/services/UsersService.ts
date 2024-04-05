@@ -25,17 +25,20 @@ export class UsersService {
 
     /**
      * @param limit 
+     * @param inRoom 
      * @returns BotsResponse 
      * @throws ApiError
      */
     public getAllBots(
 limit: number,
+inRoom: boolean,
 ): CancelablePromise<BotsResponse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/bots',
             query: {
                 'limit': limit,
+                'inRoom': inRoom,
             },
         });
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, ParseBoolPipe, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { NumericalResult, Result } from '../common/models/result';
 import {
@@ -7,12 +7,12 @@ import {
     SetBalanceAndDecreaseScoinsRequest,
     SetBalanceRequest,
     UpdateBalanceRequest,
+    UpdateBotsBalanceRequest,
+    UpdateBotsBalanceResponse,
     UpdateBotsJoinRoomRequest,
     UpdateBotsOutRoomRequest,
     UpdateStakeLevelRequest,
     UserInfoResponse,
-    UpdateBotsBalanceRequest,
-    UpdateBotsBalanceResponse,
 } from './models';
 import { UsersService } from './users.service';
 
@@ -24,8 +24,11 @@ export class UsersController {
     @Get('bots')
     @ApiOperation({ operationId: 'getAllBots' })
     @ApiOkResponse({ type: BotsResponse })
-    async getAllBots(@Query('limit', ParseIntPipe) limit: number) {
-        return this.usersService.getAllBots(limit);
+    async getAllBots(
+        @Query('limit', ParseIntPipe) limit: number,
+        @Query('inRoom', new DefaultValuePipe(true), ParseBoolPipe) inRoom: boolean,
+    ) {
+        return this.usersService.getAllBots(limit, inRoom);
     }
 
     @Get('bots/total')

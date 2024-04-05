@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
 import { DataHandler } from '../common/providers';
+import { UpdateBalanceRequest, UpdateBotsBalanceRequest, UpdateStakeLevelRequest } from './models';
 import { UserInfos, UserInfosDocument } from './schemas';
-import { UpdateBalanceRequest, UpdateStakeLevelRequest, UpdateBotsBalanceRequest } from './models';
 
 Injectable();
 export class UsersService {
@@ -25,8 +25,8 @@ export class UsersService {
         return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
-    async getAllBots(limit = 20): Promise<Result<UserInfos[]>> {
-        const filter = { type: true, disabled: false, inRoom: false };
+    async getAllBots(limit = 20, inRoom: boolean = true): Promise<Result<UserInfos[]>> {
+        const filter = { type: true, disabled: false, inRoom };
 
         const execution = this.userInfoModel
             .aggregate([{ $match: filter }, { $sample: { size: limit } }, { $project: { id: 1, name: 1, avatarId: 1, red: 1, type: 1 } }])
