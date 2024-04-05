@@ -26,9 +26,9 @@ export class UsersController {
     @ApiOkResponse({ type: BotsResponse })
     async getAllBots(
         @Query('limit', ParseIntPipe) limit: number,
-        @Query('inRoom', new DefaultValuePipe(true), ParseBoolPipe) inRoom: boolean,
+        @Query('includeBotsInRoom', new DefaultValuePipe(false), ParseBoolPipe) includeBotsInRoom: boolean,
     ) {
-        return this.usersService.getAllBots(limit, inRoom);
+        return this.usersService.getAllBots(limit, includeBotsInRoom);
     }
 
     @Get('bots/total')

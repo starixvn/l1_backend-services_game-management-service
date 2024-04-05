@@ -25,8 +25,8 @@ export class UsersService {
         return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
-    async getAllBots(limit = 20, inRoom: boolean = true): Promise<Result<UserInfos[]>> {
-        const filter = { type: true, disabled: false, inRoom };
+    async getAllBots(limit = 20, includeBotsInRoom: boolean = false): Promise<Result<UserInfos[]>> {
+        const filter = includeBotsInRoom ? { type: true, disabled: false } : { type: true, disabled: false, inRoom: false };
 
         const execution = this.userInfoModel
             .aggregate([{ $match: filter }, { $sample: { size: limit } }, { $project: { id: 1, name: 1, avatarId: 1, red: 1, type: 1 } }])
