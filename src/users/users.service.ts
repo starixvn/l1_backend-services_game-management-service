@@ -25,7 +25,7 @@ export class UsersService {
         return this.dataHandler.getData<UserInfos[]>(execution);
     }
 
-    async getAllBots(limit = 20, includeBotsInRoom: boolean = false): Promise<Result<UserInfos[]>> {
+    async getAllBots(limit = 20, includeBotsInRoom = false): Promise<Result<UserInfos[]>> {
         const filter = includeBotsInRoom ? { type: true, disabled: false } : { type: true, disabled: false, inRoom: false };
 
         const execution = this.userInfoModel
