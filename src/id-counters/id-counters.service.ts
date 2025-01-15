@@ -38,6 +38,6 @@ export class IdCountersService {
         const filter = { m: `${gameName}_${modelNamePostFix}`, f: 'id' };
         const updates = { $set: { c: id } };
         const updateOptions = { setDefaultsOnInsert: true, upsert: true };
-        return this.dataHandler.updateData(this.IdCountersModel, filter, updates, updateOptions);
+        return this.dataHandler.getDataAndUpdate(this.IdCountersModel, filter, updates, updateOptions);
     }
 }
