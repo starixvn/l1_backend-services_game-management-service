@@ -40,6 +40,22 @@ export class CurrencyGroupGames {
     @ApiProperty({ type: [Object] })
     @Prop({ type: [Object] })
     stakeLevels: object[];
+
+    @ApiProperty({ type: [Number] })
+    @Prop({ type: [Number] })
+    betLevels: number[];
+
+    @ApiProperty({ type: Number })
+    @Prop({ type: Number })
+    defaultBetLevel: number;
+
+    @ApiProperty({ type: [Number] })
+    @Prop({ type: [Number] })
+    coinValues: number[];
+
+    @ApiProperty({ type: Number })
+    @Prop({ type: Number })
+    defaultCoinValue: number;
 }
 
 export const CurrencyGroupGamesSchema = SchemaFactory.createForClass(CurrencyGroupGames);
