@@ -12,4 +12,8 @@ export type CurrencyGroupGames = {
     maxBetPerChoice: Record<string, any>;
     chips: Array<number>;
     stakeLevels: Array<Record<string, any>>;
+    betLevels: Array<number>;
+    defaultBetLevel: number;
+    coinValues: Array<number>;
+    defaultCoinValue: number;
 };

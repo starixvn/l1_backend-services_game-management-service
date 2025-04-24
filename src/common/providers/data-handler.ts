@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FilterQuery, Model, QueryOptions, UpdateQuery, Document } from 'mongoose';
+import { Document, FilterQuery, Model, QueryOptions, UpdateQuery } from 'mongoose';
 import { ErrorCodes, ErrorMessages, Result } from '../models/result';
 import { SentryLogger } from './logger.service';
 
@@ -69,6 +69,26 @@ export class DataHandler {
     ): Promise<Result<T>> {
         try {
             const result = await model.updateMany(filter, updates, options).exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
+
+    async deleteData<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
+        try {
+            const result = await model.deleteOne(filter, options);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
+
+    async deleteManyData<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
+        try {
+            const result = await model.deleteMany(filter, options);
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
         } catch (error) {
             this.logger.error(error);

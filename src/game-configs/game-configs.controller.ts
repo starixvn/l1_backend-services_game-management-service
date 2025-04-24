@@ -1,9 +1,9 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-import { GameConfigsService } from './game-configs.service';
 import { Result } from '../common/models/result';
-import { GameConfigs } from './schemas';
+import { GameConfigsService } from './game-configs.service';
 import { GameConfigResponse } from './models/game-config-response';
+import { GameConfigs } from './schemas';
 
 @ApiBearerAuth()
 @ApiTags('game-configs')
@@ -30,7 +30,7 @@ export class GameConfigsController {
     @ApiParam({ name: 'gameName', type: 'string' })
     @ApiParam({ name: 'exchangeReload', type: 'boolean' })
     @ApiOkResponse({ type: Result })
-    async updateExchangeReload(@Body() body): Promise<Result<any>> {
+    async updateExchangeReload(@Body() body: any): Promise<Result<any>> {
         return this.service.updateExchangeReload(body.gameName, body.exchangeReload);
     }
 

@@ -15,6 +15,7 @@ import { DefaultService } from './services/DefaultService';
 import { DomainService } from './services/DomainService';
 import { ExchangeRatesService } from './services/ExchangeRatesService';
 import { GameConfigsService } from './services/GameConfigsService';
+import { GameNotificationsService } from './services/GameNotificationsService';
 import { IdCountersService } from './services/IdCountersService';
 import { JackpotsService } from './services/JackpotsService';
 import { NotificationService } from './services/NotificationService';
@@ -35,6 +36,7 @@ export class gameManagementClient {
     public readonly domain: DomainService;
     public readonly exchangeRates: ExchangeRatesService;
     public readonly gameConfigs: GameConfigsService;
+    public readonly gameNotifications: GameNotificationsService;
     public readonly idCounters: IdCountersService;
     public readonly jackpots: JackpotsService;
     public readonly notification: NotificationService;
@@ -66,6 +68,7 @@ export class gameManagementClient {
         this.domain = new DomainService(this.request);
         this.exchangeRates = new ExchangeRatesService(this.request);
         this.gameConfigs = new GameConfigsService(this.request);
+        this.gameNotifications = new GameNotificationsService(this.request);
         this.idCounters = new IdCountersService(this.request);
         this.jackpots = new JackpotsService(this.request);
         this.notification = new NotificationService(this.request);
