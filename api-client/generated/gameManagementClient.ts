@@ -8,6 +8,7 @@ import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 
 import { AggregationService } from './services/AggregationService';
 import { ArchiveStatusService } from './services/ArchiveStatusService';
+import { BotConfigService } from './services/BotConfigService';
 import { CurrenciesService } from './services/CurrenciesService';
 import { CurrencyGroupGamesService } from './services/CurrencyGroupGamesService';
 import { CurrencyGroupsService } from './services/CurrencyGroupsService';
@@ -17,6 +18,7 @@ import { ExchangeRatesService } from './services/ExchangeRatesService';
 import { GameConfigsService } from './services/GameConfigsService';
 import { GameNotificationsService } from './services/GameNotificationsService';
 import { IdCountersService } from './services/IdCountersService';
+import { JackpotConfigService } from './services/JackpotConfigService';
 import { JackpotsService } from './services/JackpotsService';
 import { NotificationService } from './services/NotificationService';
 import { OperatorConfigService } from './services/OperatorConfigService';
@@ -29,6 +31,7 @@ export class gameManagementClient {
 
     public readonly aggregation: AggregationService;
     public readonly archiveStatus: ArchiveStatusService;
+    public readonly botConfig: BotConfigService;
     public readonly currencies: CurrenciesService;
     public readonly currencyGroupGames: CurrencyGroupGamesService;
     public readonly currencyGroups: CurrencyGroupsService;
@@ -38,6 +41,7 @@ export class gameManagementClient {
     public readonly gameConfigs: GameConfigsService;
     public readonly gameNotifications: GameNotificationsService;
     public readonly idCounters: IdCountersService;
+    public readonly jackpotConfig: JackpotConfigService;
     public readonly jackpots: JackpotsService;
     public readonly notification: NotificationService;
     public readonly operatorConfig: OperatorConfigService;
@@ -61,6 +65,7 @@ export class gameManagementClient {
 
         this.aggregation = new AggregationService(this.request);
         this.archiveStatus = new ArchiveStatusService(this.request);
+        this.botConfig = new BotConfigService(this.request);
         this.currencies = new CurrenciesService(this.request);
         this.currencyGroupGames = new CurrencyGroupGamesService(this.request);
         this.currencyGroups = new CurrencyGroupsService(this.request);
@@ -70,6 +75,7 @@ export class gameManagementClient {
         this.gameConfigs = new GameConfigsService(this.request);
         this.gameNotifications = new GameNotificationsService(this.request);
         this.idCounters = new IdCountersService(this.request);
+        this.jackpotConfig = new JackpotConfigService(this.request);
         this.jackpots = new JackpotsService(this.request);
         this.notification = new NotificationService(this.request);
         this.operatorConfig = new OperatorConfigService(this.request);
