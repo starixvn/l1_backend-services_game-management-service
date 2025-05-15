@@ -19,6 +19,8 @@ import { GameNotificationModule } from './game-notifications/game-notification.m
 import { IdCountersModule } from './id-counters/id-counters.module';
 import { JackpotsModule } from './jackpots/jackpots.module';
 import { AuthenticateMiddleware } from './middlewares/authenticate.middleware';
+import { BotConfigModule } from './bot-configs/bot-config.module';
+import { JackpotConfigModule } from './jackpot-configs/jackpot-config.module';
 import { NotificationModule } from './notifications/notification.module';
 import { OperatorConfigModule } from './operator-configs/operator-config.module';
 import { PromotionModule } from './promotions/promotion.module';
@@ -53,6 +55,8 @@ import { UsersModule } from './users/users.module';
         ExchangeRateModule,
         IdCountersModule,
         AggregationModule,
+        BotConfigModule,
+        JackpotConfigModule,
         CacheModule.register(),
         GameNotificationModule,
     ],
