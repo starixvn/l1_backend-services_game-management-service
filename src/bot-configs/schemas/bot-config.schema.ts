@@ -10,13 +10,9 @@ export class BotConfigs {
     @Prop({ required: true })
     gameId: number;
 
-    @ApiProperty({ type: [String] })
-    @Prop({ required: true })
-    siteName: string[];
-
     @ApiProperty()
-    @Prop({ required: true, default: '' })
-    operatorId: string;
+    @Prop({ required: false, default: '' })
+    jackpotConfigId: string;
 
     @ApiProperty()
     @Prop({ required: true })

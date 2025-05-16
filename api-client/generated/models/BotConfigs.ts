@@ -5,8 +5,7 @@
 
 export type BotConfigs = {
     gameId: number;
-    siteName: Array<string>;
-    operatorId: string;
+    jackpotConfigId: string;
     enabled: boolean;
     bot_maxBet: number;
     bot_minBet: number;
