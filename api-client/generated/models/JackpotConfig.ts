@@ -7,6 +7,7 @@ import type { BotConfig } from './BotConfig';
 import type { Pool } from './Pool';
 
 export type JackpotConfig = {
+    _id: string;
     gameId: number;
     siteName: Array<string>;
     operatorId: string;

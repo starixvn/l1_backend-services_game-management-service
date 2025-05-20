@@ -72,6 +72,10 @@ export type JackpotConfigDocument = JackpotConfig & mongoose.Document;
 export class JackpotConfig {
     @ApiProperty()
     @Prop({ required: true })
+    _id: string;
+
+    @ApiProperty()
+    @Prop({ required: true })
     gameId: number;
 
     @ApiProperty({ type: [String] })

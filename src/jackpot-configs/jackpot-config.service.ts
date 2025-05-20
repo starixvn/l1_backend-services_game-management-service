@@ -13,7 +13,7 @@ export class JackpotConfigService {
     ) {}
 
     async getJackpotConfig(gameId: number): Promise<Result<JackpotConfig[]>> {
-        const execution = this.jackpotConfigModel.find({ gameId, enabled: true }, { _id: 0 }).lean().exec();
+        const execution = this.jackpotConfigModel.find({ gameId, enabled: true }).lean().exec();
 
         const result = await this.dataHandler.getData(execution);
         if (!result.data) {
