@@ -80,7 +80,7 @@ export class JackpotConfig {
 
     @ApiProperty({ type: [String] })
     @Prop({ required: true })
-    siteName: string[];
+    siteNames: string[];
 
     @ApiProperty()
     @Prop({ required: true, default: '' })
