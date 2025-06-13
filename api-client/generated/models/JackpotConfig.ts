@@ -9,7 +9,7 @@ import type { Pool } from './Pool';
 export type JackpotConfig = {
     _id: string;
     gameId: number;
-    siteName: Array<string>;
+    siteNames: Array<string>;
     operatorId: string;
     enabled: boolean;
     pools: Pool;
