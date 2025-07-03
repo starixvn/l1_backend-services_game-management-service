@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CurrencyGroupGameConfigsResponse } from '../models/CurrencyGroupGameConfigsResponse';
 import type { CurrencyGroupGamesResponse } from '../models/CurrencyGroupGamesResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -22,6 +23,23 @@ gameId: number,
         return this.httpRequest.request({
             method: 'GET',
             url: '/currency-group-games',
+            query: {
+                'gameId': gameId,
+            },
+        });
+    }
+
+    /**
+     * @param gameId 
+     * @returns CurrencyGroupGameConfigsResponse 
+     * @throws ApiError
+     */
+    public getGuaranteedFeatureConfigsByGameId(
+gameId: number,
+): CancelablePromise<CurrencyGroupGameConfigsResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/currency-group-games/guaranteed-feature',
             query: {
                 'gameId': gameId,
             },

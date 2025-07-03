@@ -21,6 +21,8 @@ export type { ContributeJackpotRequest } from './models/ContributeJackpotRequest
 export type { CreatePoolRequest } from './models/CreatePoolRequest';
 export type { Currencies } from './models/Currencies';
 export type { CurrenciesResponse } from './models/CurrenciesResponse';
+export type { CurrencyGroupGameConfigs } from './models/CurrencyGroupGameConfigs';
+export type { CurrencyGroupGameConfigsResponse } from './models/CurrencyGroupGameConfigsResponse';
 export type { CurrencyGroupGames } from './models/CurrencyGroupGames';
 export type { CurrencyGroupGamesResponse } from './models/CurrencyGroupGamesResponse';
 export type { CurrencyGroups } from './models/CurrencyGroups';
