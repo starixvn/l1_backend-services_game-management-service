@@ -23,4 +23,5 @@ export default () => ({
         logIdentifier: 'game-management-service',
     },
     systemName: process.env.SYSTEM_TYPE,
+    env: process.env.ENV,
 });

@@ -20,6 +20,10 @@ export class AuthenticateMiddleware implements NestMiddleware {
 
     async use(req: Request, res: Response, next: NextFunction) {
         try {
+            if (this.config.get('env') === 'DEV') {
+                next();
+                return;
+            }
             const token = this.getBearerToken(req);
             if (token == null) {
                 this.sendError(res, this.UnauthorizedCode);
