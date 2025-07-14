@@ -56,6 +56,10 @@ export class CurrencyGroupGames {
     @ApiProperty({ type: Number })
     @Prop({ type: Number })
     defaultCoinValue: number;
+
+    @ApiProperty({ type: Number })
+    @Prop({ type: Number })
+    maxWinPerRound: number;
 }
 
 export const CurrencyGroupGamesSchema = SchemaFactory.createForClass(CurrencyGroupGames);
