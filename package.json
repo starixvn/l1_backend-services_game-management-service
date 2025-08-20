@@ -43,7 +43,7 @@
         "jest-extended": "^4.0.2",
         "jest-sonar-reporter": "^2.0.0",
         "jwks-rsa": "^3.1.0",
-        "mongoose": "5.11.13",
+        "mongoose": "6.13.6",
         "openid-client": "^5.6.1",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.8.1",
