@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { Model, Types, Decimal128 } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { GameConfigsDocument, GameConfigs } from '../../../src/game-configs/schemas';
 import { ArchiveStatuses, ArchiveStatusesDocument } from '../../../src/archive-statuses/schemas';
 import { Promotion, PromotionDocument } from '../../../src/promotions/schemas';
@@ -59,7 +59,7 @@ const initCurrencyGroupGames = async (moduleFixture: TestingModule) => {
     const item = new CurrencyGroupGames();
     item.gameId = 12;
     item.gameName = 'baccarat';
-    item.groupId = 'abc';
+    item.groupId = new Types.ObjectId();
     item.enabled = true;
     item.minBet = 1;
     item.maxBet = 10;
@@ -96,7 +96,7 @@ const initCurrencies = async (moduleFixture: TestingModule) => {
     item.multiplier = 10;
     item.isTest = false;
     item.partnerId = 'p1';
-    item.groupId = 'g1';
+    item.groupId = new Types.ObjectId();
 
     await model.insertMany([item]);
 };

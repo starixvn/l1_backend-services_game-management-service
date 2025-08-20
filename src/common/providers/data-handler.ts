@@ -53,8 +53,8 @@ export class DataHandler {
         options?: QueryOptions,
     ): Promise<Result<T>> {
         try {
-            const result = await model.updateOne(filter, updates, options).lean().exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+            const result = await model.updateOne(filter, updates, options);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result as T);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);
@@ -69,7 +69,7 @@ export class DataHandler {
     ): Promise<Result<T>> {
         try {
             const result = await model.updateMany(filter, updates, options).exec();
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result as T);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);
@@ -79,7 +79,7 @@ export class DataHandler {
     async deleteData<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
         try {
             const result = await model.deleteOne(filter, options);
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result as T);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);
@@ -89,7 +89,7 @@ export class DataHandler {
     async deleteManyData<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
         try {
             const result = await model.deleteMany(filter, options);
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result as T);
         } catch (error) {
             this.logger.error(error);
             return new Result(ErrorCodes.Failed, error.message);
