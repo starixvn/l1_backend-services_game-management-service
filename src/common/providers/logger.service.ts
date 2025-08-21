@@ -1,12 +1,13 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as Sentry from '@sentry/node';
+import { captureException, captureMessage, httpIntegration, init, mongoIntegration, setTag, SeverityLevel } from '@sentry/node';
 
 interface SentryConfig {
     dsn: string;
     env: string;
     release: string;
     logIdentifier: string;
+    tracesSampleRate: number;
 }
 
 const Severity = {
@@ -24,15 +25,16 @@ export class SentryLogger implements LoggerService {
 
     constructor(private readonly configService: ConfigService) {
         this.config = this.configService.get<SentryConfig>('sentry');
-        Sentry.init({
+        init({
             dsn: this.config.dsn,
             environment: this.config.env,
             maxValueLength: 5000,
             release: this.config.release ? `game-management-service@${this.config.release}` : '',
+            tracesSampleRate: this.config.tracesSampleRate ?? 0.1,
+            integrations: [httpIntegration({ ignoreIncomingRequests: (urlPath) => urlPath === '/' || !urlPath }), mongoIntegration()],
         });
-        Sentry.setTag('backend_service', 'game-management-service');
-
-        Sentry.captureMessage(`Logger started at ${new Date()}`);
+        setTag('backend_service', 'game-management-service');
+        captureMessage(`Logger started at ${new Date()}`);
     }
 
     log(message: string, context = Severity.Info) {
@@ -40,7 +42,7 @@ export class SentryLogger implements LoggerService {
             return;
         }
 
-        Sentry.captureMessage(message, context as Sentry.Severity);
+        captureMessage(message, context as SeverityLevel);
     }
 
     error(exception: any) {
@@ -49,26 +51,26 @@ export class SentryLogger implements LoggerService {
             exception instanceof String ||
             (exception && exception.message == null && exception.stack == null)
         ) {
-            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as Sentry.Severity);
+            this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as SeverityLevel);
         } else {
             if (!exception) {
                 exception = `Exception is null at ${new Date()}`;
             }
 
-            Sentry.captureException(exception);
+            captureException(exception);
         }
     }
 
     warn(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning as Sentry.Severity);
+        captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Warning as SeverityLevel);
     }
 
     debug?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug as Sentry.Severity);
+        captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Debug as SeverityLevel);
     }
 
     verbose?(message: string) {
-        Sentry.captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log as Sentry.Severity);
+        captureMessage(`${this.config.logIdentifier} ${message}`, Severity.Log as SeverityLevel);
     }
 
     composeBeforeCallMessage(session, params) {
@@ -87,6 +89,6 @@ export class SentryLogger implements LoggerService {
         ];
 
         const joinedMessages = messages.join('\n');
-        Sentry.captureMessage(joinedMessages, logLevel);
+        captureMessage(joinedMessages, logLevel as SeverityLevel);
     }
 }

@@ -1,24 +1,17 @@
-import { initializer, initSpanProcessor, addIdentifiers } from 'sc-instrument';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import helmet from '@fastify/helmet';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import helmet from '@fastify/helmet';
 import { join } from 'path';
 
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { AppModule } from './app.module';
 import { SentryLogger } from './common/providers/logger.service';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
 async function bootstrap() {
-    if (process.env.ENABLE_OTEL) {
-        initSpanProcessor(process.env.OTEL_EXPORTER ?? '', initializer);
-        addIdentifiers(`${process.env.SYSTEM_TYPE} - ${process.env.APP_NAME}`, process.env.ENV ?? '', initializer);
-        initializer.start();
-    }
-
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ caseSensitive: false }));
 
     app.useLogger(app.get(SentryLogger));
