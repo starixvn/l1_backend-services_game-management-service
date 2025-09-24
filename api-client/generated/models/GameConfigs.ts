@@ -26,6 +26,7 @@ export type GameConfigs = {
     exchangeReload: boolean;
     randomMode: number;
     cascadingSlotsConfig: Record<string, any>;
+    cascadingClusterConfig: Record<string, any>;
     slotRNGConfig: Record<string, any>;
     gameId: number;
     displayName: string;

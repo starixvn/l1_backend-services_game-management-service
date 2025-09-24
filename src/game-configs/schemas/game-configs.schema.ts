@@ -136,6 +136,11 @@ export class GameConfigs {
     @ApiProperty()
     @Prop()
     type: number;
+
+    @IsObject()
+    @ApiProperty()
+    @Prop({ type: Object })
+    cascadingClusterConfig: object;
 }
 
 export const GameConfigsSchema = SchemaFactory.createForClass(GameConfigs);
