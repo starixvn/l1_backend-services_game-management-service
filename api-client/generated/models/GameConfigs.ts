@@ -30,4 +30,5 @@ export type GameConfigs = {
     gameId: number;
     displayName: string;
     type: number;
+    enablePromotionRTP: boolean;
 };

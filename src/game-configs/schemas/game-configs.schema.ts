@@ -136,6 +136,11 @@ export class GameConfigs {
     @ApiProperty()
     @Prop()
     type: number;
+
+    @IsBoolean()
+    @ApiProperty()
+    @Prop({ default: false })
+    enablePromotionRTP: boolean;
 }
 
 export const GameConfigsSchema = SchemaFactory.createForClass(GameConfigs);
